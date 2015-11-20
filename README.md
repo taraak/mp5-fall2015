@@ -16,6 +16,8 @@ For this machine problem, you will work with an excerpt from the Yelp Academic D
 
 You will use the dataset to create and maintain a simple in-memory database with restaurants, users and reviews.
 
+For working with the JSON format, we recommend that you use the [json-simple](https://code.google.com/p/json-simple/) toolkit for decoding (reading) and encoding (writing) JSON data. The `json-simple-1.1.1` JAR file has been included in this repository and you can add it to the Java build path in Eclipse as an external JAR file.
+
 ### Part I: In-Memory Database Server and Queries
 
 Create an abstract datatype `RestaurantDB` that represents the data from the given dataset. An important operation that we would like to perform on such a datatype is a search that retrieves a set of restaurants given a query.
@@ -36,11 +38,16 @@ Implement a **multithreaded server** that can be launched from the command line 
 
 This server should be capable of accepting queries from many clients and executing those queries concurrently. The clients communicate with the server by sending a query (a `String`) and they receive, in JSON format, a list of restaurants that satisfies the query.
 
-The server should also be capable of responding to two other types of client requests: 
+> For parsing the queries, we recommend using ANTLR to save time and simplify the development effort. If you use ANTLR then you must add the appropriate JAR files and import statements. Commit the ANTLR JAR file to your repository so that evaluation is easier.
+
+The server should also be capable of responding to five other types of client requests: 
 1. `randomReview("Restaurant Name")`. To this request, the server should respond by providing a random review (in JSON format) for the restaurant that matches the provided name. If more than one restaurant matches the name then any restaurant that satisfies the match can be selected.
 2. `getRestaurant("businessId")`. To this request, the server should respond with the restaurant details in JSON format for the restaurant that has the provided business identifier.
+3. `addRestaurant("Restaurant Details in JSON format")`. The server should add a new restaurant to the database with suitable checking (for example: does another restaurant with the same name exist at the same location?).
+4. `addUser("User details in JSON format")`. 
+5. `addReview("Review details in JSON format")`.
 
-For both these requests, a suitable JSON formatted string should be returned if there is no valid response.
+For all these requests, a suitable JSON formatted string should be returned if the request is illegal/invalid/incorrect. For the methods that update the database, also generate a suitable response.
 
 The server should be implemented using a class named `RestaurantDBServer`.
 
@@ -86,7 +93,8 @@ For the k-means clustering algorithm, you should implement a method that returns
 
 You can run the provided visualization method using `python` (Python 3) and the visualization is called a [Voronoi tesselation](https://en.wikipedia.org/wiki/Voronoi_diagram).
 
-> Instructions on how to launch the visualization
+> One can visualize the tessalation produced by k-means clustering by writing the JSON formatted cluster information to `voronoi.json` in the `visualize` directory and then launch `visualize.py` as follows: `python3 visualize.py`
+> For the curious, you can also see some Javascript in action here.
 
 #### Least Squares Regression
 
@@ -110,6 +118,8 @@ After calculating the sums of squares, the regression coefficients and R<sup>2</
 + a = mean(y) - b * mean(x)
 + R<sup>2</sup> = S<sub>xy</sub><sup>2</sup> / (S<sub>xx</sub> S<sub>yy</sub>)
 
-Also implement the `getBestPredictor` method that takes a user and a list of feature functions and returns the _best_ feature function (the one that results in the highest R<sup>2</sup> value). 
+Also implement the `getBestPredictor` method that takes a user and a list of feature functions and returns the _best_ predictor function (the one that results in the highest R<sup>2</sup> value). 
 
 In this machine problem, we will use interfaces to pass and return functions but we could have also considered using [lambdas that Java 8 supports](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html).
+
+> To pass and return functions in this machine problem, you can have classes that implement the interface `MP5Function` which contains a single method to be implemented `f`. Different implementations of the interface will allow for different functions `f`.
