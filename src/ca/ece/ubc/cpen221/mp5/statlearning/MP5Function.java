@@ -11,6 +11,6 @@ public interface MP5Function {
 	 * @param yelpRestaurant
 	 * @return the value of the feature function
 	 */
-	public int f(Restaurant yelpRestaurant, RestaurantDB db);
+	public double f(Restaurant yelpRestaurant, RestaurantDB db);
 	
 }
