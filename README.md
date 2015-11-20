@@ -40,7 +40,8 @@ This server should be capable of accepting queries from many clients and executi
 
 > For parsing the queries, we recommend using ANTLR to save time and simplify the development effort. If you use ANTLR then you must add the appropriate JAR files and import statements. Commit the ANTLR JAR file to your repository so that evaluation is easier.
 
-The server should also be capable of responding to five other types of client requests: 
+The server should also be capable of responding to five other types of client requests:
+ 
 1. `randomReview("Restaurant Name")`. To this request, the server should respond by providing a random review (in JSON format) for the restaurant that matches the provided name. If more than one restaurant matches the name then any restaurant that satisfies the match can be selected.
 2. `getRestaurant("businessId")`. To this request, the server should respond with the restaurant details in JSON format for the restaurant that has the provided business identifier.
 3. `addRestaurant("Restaurant Details in JSON format")`. The server should add a new restaurant to the database with suitable checking (for example: does another restaurant with the same name exist at the same location?).
