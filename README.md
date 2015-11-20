@@ -166,3 +166,15 @@ public class Test {
 	}
 }
 ```
+
+### Grading Rubric
+We will use the following approximate rubric to grade your work:
+
+| Task | Grade Contribution |
+|:----|---:|
+| Database Implementation: Multithreaded Client/Server + `randomReview` and `getRestaurant`  | 25% |
+| Database Implementation: Rich Queries | 25% |
+| k-means Clustering | 25% |
+| Least Squares Regression | 25% |
+
+Clear specifications, documentation and good programming style including suitable use of functions is expected. A submission could lose up to 30% of the grade for not following good practices.
