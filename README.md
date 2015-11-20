@@ -82,6 +82,12 @@ The k-means algorithm finds k centroids within a dataset that each correspond to
 
 This [visualization](http://tech.nitoyon.com/en/blog/2013/11/07/k-means/) is a good way to understand how the algorithm works.
 
+For the k-means clustering algorithm, you should implement a method that returns a `List` of `Set`s: each `Set` representing a cluster of restaurants. You should also implement a method that converts such a `List` to JSON format as illustrated by the JSON file `voronoi.json` in the directory `visualize`.
+
+You can run the provided visualization method using `python` (Python 3) and the visualization is called a [Voronoi tesselation](https://en.wikipedia.org/wiki/Voronoi_diagram).
+
+> Instructions on how to launch the visualization
+
 #### Least Squares Regression
 
 As an instance of supervised learning, you will implement an algorithm for predicting the rating that a user may give to a restaurant.
