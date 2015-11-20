@@ -128,6 +128,13 @@ After calculating the sums of squares, the regression coefficients and R<sup>2</
 
 Also implement the `getBestPredictor` method that takes a user and a list of feature functions and returns the _best_ predictor function (the one that results in the highest R<sup>2</sup> value). 
 
+Consider the following feature functions for this machine problem:
++ restaurant price scale
++ restaurant mean rating
++ restaurant location: latitude
++ restaurant location: logitude
++ restaurant category (you will have to create a mapping from category name to integer)
+
 In this machine problem, we will use interfaces to pass and return functions but we could have also considered using [lambdas that Java 8 supports](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html).
 
 > To pass and return functions in this machine problem, you can have classes that implement the interface `MP5Function` which contains a single method to be implemented `f`. Different implementations of the interface will allow for different functions `f`.
