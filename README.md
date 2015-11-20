@@ -46,3 +46,5 @@ The grammar for the query language is:
 <LParen> ::= "("
 <RParen> ::= ")"
 ```
+
+> One of the limitations of this grammar is that if we want restaurants at the price level 2 then the query will look like `price(2..2)` and this can be improved upon but we will leave this as it is for this machine problem.
