@@ -13,7 +13,7 @@ In addition to these aspects, the problem also touches upon rudimentary methods 
 ### Logistics
 
 + This assignment should be completed in teams of two. 
-+ You should submit your work by December 5, 12 noon.
++ You should submit your work by **December 5, 12 noon.**
 + Details for Gradescope submission will be posted shortly.
 + A demo during the week of November 30 in the lab session is preferred. If this is not possible then you may need to schedule a demo after December 5 with a TA.
 
