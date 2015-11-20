@@ -193,3 +193,7 @@ We will use the following approximate rubric to grade your work:
 | Least Squares Regression | 20% |
 
 > Clear specifications, documentation and good programming style including suitable use of functions is expected. A submission could lose up to 30% of the grade for not following good practices.
+
+### Suggestions
++ As usual, **start early!**
++ The processing of rich queries (we are using a language that is not as sophisticated as the structured query language - SQL - used by relational databases) is likely to be more time consuming than the other tasks. You may want to complete the other tasks first.
