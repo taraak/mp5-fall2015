@@ -73,7 +73,7 @@ The grammar for the query language is:
 <name> ::= "name" <LParen><string><RParen>
 <rating> ::= "rating" <LParen><range><RParen>
 <price> ::= "price" <LParen><range><RParen>
-<range> ::= <LParen>[1-5]..[1-5]<RParen>
+<range> ::= [1-5]..[1-5]
 <LParen> ::= "("
 <RParen> ::= ")"
 ```
