@@ -10,6 +10,13 @@ This machine problem is designed to allow you to explore multiple aspects of sof
 
 In addition to these aspects, the problem also touches upon rudimentary methods for statistical inference and learning.
 
+### Logistics
+
++ This assignment should be completed in teams of two. 
++ You should submit your work by December 5, 12 noon.
++ Details for Gradescope submission will be posted shortly.
++ A demo during the week of November 30 in the lab session is preferred. If this is not possible then you may need to schedule a demo after December 5 with a TA.
+
 ### Background
 
 For this machine problem, you will work with an excerpt from the [Yelp Academic Dataset](https://www.yelp.com/academic_dataset). Specifically, you will work with data (in [JSON](https://en.wikipedia.org/wiki/JSON) format) on restaurants, and this data includes information about some restaurants, reviews of the restaurants, and user information (for those contributing reviews).
@@ -177,4 +184,4 @@ We will use the following approximate rubric to grade your work:
 | k-means Clustering | 25% |
 | Least Squares Regression | 25% |
 
-Clear specifications, documentation and good programming style including suitable use of functions is expected. A submission could lose up to 30% of the grade for not following good practices.
+> Clear specifications, documentation and good programming style including suitable use of functions is expected. A submission could lose up to 30% of the grade for not following good practices.
