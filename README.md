@@ -90,7 +90,7 @@ By analyzing a user's past ratings, we can try to predict what rating the user m
 
 To predict ratings, you will implement simple least-squares linear regression, a widely used statistical method that approximates a relationship between some input feature (such as price) and an output value (the rating) with a line. The algorithm takes a sequence of input-output pairs and computes the slope and intercept of the line that minimizes the mean of the squared difference between the line and the outputs.
 
-Implement the `predict_rating` method, which takes a user and a feature function (as well as the `RestaurantDB`), and returns a _function_ that predicts the users ratings as well as a regression quality estimate (`r_squared`).
+Implement the `getPredictor` method, which takes a user and a feature function (as well as the `RestaurantDB`), and returns a _function_ that predicts the users ratings as well as a regression quality estimate (`r_squared`).
 
 One method of computing these values is by calculating the sums of squares, S<sub>xx</sub>, S<sub>yy</sub>, and S<sub>xy</sub>:
 
@@ -98,8 +98,12 @@ One method of computing these values is by calculating the sums of squares, S<su
 + S<sub>yy</sub> = Σ<sub>i</sub> (y<sub>i</sub> - mean(y))<sup>2</sup>
 + S<sub>xy</sub> = Σ<sub>i</sub> (x<sub>i</sub> - mean(x))(y<sub>i</sub> - mean(y))
 
-After calculating the sums of squares, the regression coefficients and r_squared are defined as follows:
+After calculating the sums of squares, the regression coefficients and R<sup>2</sup> (`r_squared`) are defined as follows:
 
 + b = S<sub>xy</sub> / S<sub>xx</sub>
 + a = mean(y) - b * mean(x)
 + R<sup>2</sup> = S<sub>xy</sub><sup>2</sup> / (S<sub>xx</sub> S<sub>yy</sub>)
+
+Also implement the `getBestPredictor` method that takes a user and a list of feature functions and returns the _best_ feature function (the one that results in the highest R<sup>2</sup> value). 
+
+In this machine problem, we will use interfaces to pass and return functions but we could have also considered using [lambdas that Java 8 supports](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html).
