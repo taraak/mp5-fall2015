@@ -4,17 +4,17 @@ Restaurants, Queries and Statistical Learning
 ===
 
 This machine problem is designed to allow you to explore multiple aspects of software construction:
-+ managing complex ADTs
-+ query parsing and execution
-+ multithreading and the client-server pattern
++ managing complex ADTs;
++ query parsing and execution;
++ multithreading and the client-server pattern.
 
 In addition to these aspects, the problem also touches upon rudimentary methods for statistical inference and learning.
 
 ### Background
 
-For this machine problem, you will work with an excerpt from the Yelp Academic Dataset. Specifically, you will work with data (in [JSON](https://en.wikipedia.org/wiki/JSON) format) on restaurants, and this data includes information about some restaurants, reviews of the restaurants, and user information (for those contributing reviews).
+For this machine problem, you will work with an excerpt from the [Yelp Academic Dataset](https://www.yelp.com/academic_dataset). Specifically, you will work with data (in [JSON](https://en.wikipedia.org/wiki/JSON) format) on restaurants, and this data includes information about some restaurants, reviews of the restaurants, and user information (for those contributing reviews).
 
-You will use the dataset to create and maintain a simple in-memory database with restaurants, users and reviews.
+You will use the dataset to create and maintain a simple in-memory database with restaurants, users and reviews. (Since the Yelp Academic Dataset does not contain details of business near UBC we are using information for restaurants near UC Berkeley or UCB!)
 
 For working with the JSON format, we recommend that you use the [json-simple](https://code.google.com/p/json-simple/) toolkit for decoding (reading) and encoding (writing) JSON data. The `json-simple-1.1.1` JAR file has been included in this repository and you can add it to the Java build path in Eclipse as an external JAR file.
 
@@ -124,3 +124,45 @@ Also implement the `getBestPredictor` method that takes a user and a list of fea
 In this machine problem, we will use interfaces to pass and return functions but we could have also considered using [lambdas that Java 8 supports](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html).
 
 > To pass and return functions in this machine problem, you can have classes that implement the interface `MP5Function` which contains a single method to be implemented `f`. Different implementations of the interface will allow for different functions `f`.
+
+### Getting Started with JSON
+
+Here is some sample code that could get you started with processing files in JSON format.
+```java
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.util.Iterator;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+public class Test {
+	@SuppressWarnings("unchecked")
+	public static void main(String[] args) {
+		JSONParser parser = new JSONParser();
+		try {
+			Object obj = parser
+					.parse(new BufferedReader(new FileReader("data/restaurants.json")).readLine());
+
+			JSONObject jsonObject = (JSONObject) obj; 
+
+			String name = (String) jsonObject.get("name");
+			String city = (String) jsonObject.get("city");
+			JSONArray categories = (JSONArray) jsonObject.get("categories");
+
+			System.out.println("Name: " + name);
+			System.out.println("City: " + city);
+			System.out.print("Categories: ");
+			Iterator<String> iterator = categories.iterator();
+			while (iterator.hasNext()) {
+				System.out.print(iterator.next()+" ");
+			}
+			System.out.println();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+```
