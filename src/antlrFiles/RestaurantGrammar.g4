@@ -1,8 +1,8 @@
-grammar Formula;
+grammar RestaurantGrammar;
 
 // This puts "package formula;" at the top of the output Java files.
 @header {
-package formula;
+package RestaurantGrammar;
 }
 
 // This adds code to the generated lexer and parser. Do not change these lines.
