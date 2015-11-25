@@ -9,9 +9,9 @@ public class RestaurantDBServer {
 	 * Constructor
 	 * 
 	 * @param port
-	 * @param filename1
-	 * @param filename2
-	 * @param filename3
+	 * @param restaurantJSONfilename
+	 * @param reviewsJSONfilename
+	 * @param usersJSONfilename
 	 */
 	public RestaurantDBServer(int port, String filename1, String filename2, String filename3) {
 		// TODO: See the problem statement for what the arguments are.
