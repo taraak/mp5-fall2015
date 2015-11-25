@@ -1,14 +1,19 @@
 package ca.ece.ubc.cpen221.mp5;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.json.simple.JSONObject;
+
+import JSONReader.RestoReader;
 
 // TODO: This class represents the Restaurant Database.
 // Define the internal representation and 
 // state the rep invariant and the abstraction function.
 
 public class RestaurantDB {
+    
+    private Set<Restaurant> dataBase= new HashSet<Restaurant>();
 
 	/**
 	 * Create a database from the Yelp dataset given the names of three files:
@@ -28,7 +33,7 @@ public class RestaurantDB {
 	 *            the filename for the users
 	 */
 	public RestaurantDB(String restaurantJSONfilename, String reviewsJSONfilename, String usersJSONfilename) {
-		// TODO: Implement this method
+		RestoReader.restaurantReader(restaurantJSONfilename);
 	}
 	
 	/**
@@ -79,6 +84,4 @@ public class RestaurantDB {
 		// Write specs, etc.
 		return null;
 	}
-
-	//fuck git
 }
