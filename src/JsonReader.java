@@ -16,9 +16,9 @@ public class JsonReader {
 
             JSONObject jsonObject = (JSONObject) obj; 
 
-            String name = (String) jsonObject.get("name");
-            String city = (String) jsonObject.get("city");
-            String businessID= (String) jsonObject.get("business_id");
+            String name = jsonObject.get("name").toString();
+            String city = jsonObject.get("city").toString();
+            String businessID= jsonObject.get("business_id").toString();
             JSONArray categories = (JSONArray) jsonObject.get("categories");
 
             System.out.println("Name: " + name);
