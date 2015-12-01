@@ -1,6 +1,8 @@
 package ca.ece.ubc.cpen221.mp5;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -9,29 +11,89 @@ import org.json.simple.JSONObject;
 // State the rep invariant and abs
 
 public class Restaurant {
-    private int price;
-    private String name;
-    private String businessID;
-    private ArrayList<String> categories;
+    final private JSONObject restoJSON;
+   
+    
+    final private double[] location = { 0, 0 };
+    final private Set<String> neighberhoods = new HashSet<String>();
+    final private String businessID;
+    
+    final private String name;
+    final private Set<String> categories = new HashSet<String>();
+    final private String type;
+    
     private double rating;
+    final private int price;
+
     
     /**
      * Create a restaurant object.
-     * @param price
-     * @param name
-     * @param businessID
-     * @param categories
-     * @param rating
+     * 
      */
-    public Restaurant(int price, String name, String businessID, JSONArray categories, double rating){
-        this.price = price;
-        this.name = name;
-        this.businessID = businessID;
-        this.rating = rating;
+    public Restaurant(JSONObject obj){
+        this.restoJSON = (JSONObject) obj.clone();
         
-        for (int i = 0; i < categories.size(); i++){
-            this.categories.add(categories.get(i).toString());
+        this.businessID=this.restoJSON.get("business_id").toString();
+        
+        JSONArray neighberhoods=(JSONArray) this.restoJSON.get("neighborhoods");
+        for(Object object:neighberhoods){
+            this.neighberhoods.add(object.toString());
         }
+        
+        this.name=this.restoJSON.get("name").toString();
+        this.type=this.restoJSON.get("type").toString();
+        
+        JSONArray categories=(JSONArray) this.restoJSON.get("neighborhoods");
+        for(Object object:categories){
+            this.categories.add(object.toString());
+        }
+
+        
+        this.rating= (Double) this.restoJSON.get("stars");
+        this.price=(int) this.restoJSON.get("price");
+        
+        
     }
+    
+    /**
+     * Returns the restaurant details in JSON format
+     * 
+     * @return the restaurant details in JSON format
+     */
+    public String getJSONDetails() {
+        return this.restoJSON.toJSONString();
+    }
+    
+    /**
+     * Returns the restaurant details in JSON format
+     * 
+     * @return the restaurant details in JSON format
+     */
+    public String getBusinessID() {
+        return this.businessID;
+    }
+    
+    /**
+     * Compares this restaurant to another restaurant. Restaurants considered the same if they have the same
+     * business id 
+     * 
+     * @return true if the restaurants are equal
+     */
+    @Override
+    public boolean equals(Object obj){
+        return this.businessID.equals(((Restaurant) obj).getBusinessID());
+    }
+    
+    /**
+     * Overrides hashcode method as result of overriding equals
+     * 
+     * @return restaurant's hashcode
+     */
+    @Override
+    public int hashCode(){
+        return this.businessID.hashCode();
+    }
+    
+    
 
 }

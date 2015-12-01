@@ -1,11 +1,23 @@
 package ca.ece.ubc.cpen221.mp5;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.Buffer;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import JSONReader.RestoReader;
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
+
 
 // TODO: This class represents the Restaurant Database.
 // Define the internal representation and 
@@ -13,7 +25,9 @@ import JSONReader.RestoReader;
 
 public class RestaurantDB {
     
-    private Set<Restaurant> dataBase= new HashSet<Restaurant>();
+    private ArrayList<Restaurant> restaurantDB = new ArrayList<Restaurant>();
+    private ArrayList<Review> reviewDB = new ArrayList<Review>();
+    private ArrayList<User> userDB = new ArrayList<User>();
 
 	/**
 	 * Create a database from the Yelp dataset given the names of three files:
@@ -33,7 +47,47 @@ public class RestaurantDB {
 	 *            the filename for the users
 	 */
 	public RestaurantDB(String restaurantJSONfilename, String reviewsJSONfilename, String usersJSONfilename) {
-		RestoReader.restaurantReader(restaurantJSONfilename);
+	    try {
+            JSONParser parser = new JSONParser();
+
+            BufferedReader restoReader=new BufferedReader(new FileReader (restaurantJSONfilename));
+            String currentLine;
+            
+            while((currentLine=restoReader.readLine())!=null){
+                JSONObject JSONResto = (JSONObject) parser.parse(currentLine); 
+                this.restaurantDB.add(new Restaurant(JSONResto));
+                
+            }
+            
+            
+            BufferedReader reviewReader=new BufferedReader(new FileReader (restaurantJSONfilename));
+            
+            while((currentLine=reviewReader.readLine())!=null){
+                JSONObject JSONReview = (JSONObject) parser.parse(currentLine); 
+                this.reviewDB.add(new Review(JSONReview));
+                
+            }
+            
+            
+            BufferedReader userReader=new BufferedReader(new FileReader (restaurantJSONfilename));
+            
+            while((currentLine=userReader.readLine())!=null){
+                JSONObject JSONReview = (JSONObject) parser.parse(currentLine); 
+                this.userDB.add(new User(JSONReview));
+                
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException();
+        }
+		
 	}
 	
 	/**
@@ -51,8 +105,16 @@ public class RestaurantDB {
 	 * that has the provided business identifier.
 	 * @param businessID unique business identifier for which to find the associated restaurant.
 	 */
-	public JSONObject getRestaurant(String businessID){
-	    return null;
+	public String getRestaurant(String businessID){
+	    Iterator<Restaurant> restoIterator= this.restaurantDB.iterator();
+	    
+	    while(restoIterator.hasNext()){
+	        Restaurant currentResto=restoIterator.next();
+	        
+	        if(currentResto.getBusinessID().equals(businessID))
+	            return currentResto.getJSONDetails();
+	    }
+	    return ("Requested restaurant was not found");
 	}
 	
 	/**
@@ -60,6 +122,7 @@ public class RestaurantDB {
 	 * @param restoDetails restaurant details in JSON format to add to the database.
 	 */
 	public void addRestaurant(JSONObject restoDetails){
+	    //rep invariant: restaurant must not be already in the list
 	    
 	}
 
