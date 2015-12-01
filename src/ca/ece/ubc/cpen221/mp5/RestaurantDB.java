@@ -106,6 +106,7 @@ public class RestaurantDB {
 	 * @param businessID unique business identifier for which to find the associated restaurant.
 	 */
 	public String getRestaurant(String businessID){
+	    
 	    Iterator<Restaurant> restoIterator= this.restaurantDB.iterator();
 	    
 	    while(restoIterator.hasNext()){
@@ -121,9 +122,30 @@ public class RestaurantDB {
 	 * This method adds a new restaurant to the database with suitable checking.
 	 * @param restoDetails restaurant details in JSON format to add to the database.
 	 */
-	public void addRestaurant(JSONObject restoDetails){
+	public void addRestaurant(String restoDetails){
 	    //rep invariant: restaurant must not be already in the list
+	    boolean restoAlreadyThere=false;
 	    
+	       try {
+	            JSONParser parser = new JSONParser();
+	            Restaurant newRestaurant = new Restaurant((JSONObject) parser.parse((restoDetails)));
+
+	            Iterator<Restaurant> restaurantItr = this.restaurantDB.iterator();
+	            while (restaurantItr.hasNext()) {
+	                if (restaurantItr.next().equals(newRestaurant)) {
+	                    restoAlreadyThere = true;
+	                    break;
+	                }
+	            }
+
+	            if (!restoAlreadyThere) {
+	                this.restaurantDB.add(newRestaurant);
+	            }
+
+	        } catch (ParseException e) {
+	            e.printStackTrace();
+	            throw new IllegalArgumentException();
+	        }  
 	}
 
     /**
@@ -147,4 +169,36 @@ public class RestaurantDB {
 		// Write specs, etc.
 		return null;
 	}
+	
+	
+	/*
+	 * Reads a single line
+	 */
+	private JSONObject JSONReader(String fileName){
+	       try{
+	            JSONParser parser = new JSONParser();
+
+	            BufferedReader reader=new BufferedReader(new FileReader (fileName));
+	            String currentLine=reader.readLine();
+	            
+	            if(currentLine==null){
+	                throw new IllegalArgumentException();
+	            }
+	            
+	            JSONObject object = (JSONObject) parser.parse(currentLine);
+	            return object;
+	            
+	           }catch (FileNotFoundException e) {
+	               e.printStackTrace();
+	               throw new IllegalArgumentException();
+	           } catch (IOException e) {
+	               e.printStackTrace();
+	               throw new IllegalArgumentException();
+	           } catch (ParseException e) {
+	               e.printStackTrace();
+	               throw new IllegalArgumentException();
+	           }
+	    
+	}
+	
 }
