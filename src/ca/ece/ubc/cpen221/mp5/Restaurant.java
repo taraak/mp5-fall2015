@@ -15,7 +15,7 @@ public class Restaurant {
    
     
     final private double[] location = { 0, 0 };
-    final private Set<String> neighberhoods = new HashSet<String>();
+    final private Set<String> neighbourhoods = new HashSet<String>();
     final private String businessID;
     
     final private String name;
@@ -35,9 +35,9 @@ public class Restaurant {
         
         this.businessID=this.restoJSON.get("business_id").toString();
         
-        JSONArray neighberhoods=(JSONArray) this.restoJSON.get("neighborhoods");
-        for(Object object:neighberhoods){
-            this.neighberhoods.add(object.toString());
+        JSONArray neighbourhoods=(JSONArray) this.restoJSON.get("neighborhoods");
+        for(Object object:neighbourhoods){
+            this.neighbourhoods.add(object.toString());
         }
         
         this.name=this.restoJSON.get("name").toString();

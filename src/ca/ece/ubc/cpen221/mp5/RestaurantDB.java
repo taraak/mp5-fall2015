@@ -97,7 +97,8 @@ public class RestaurantDB {
 	 * @param restoName restaurant name for which to find a review.
 	 */
 	public JSONObject randomReview(String restoName) {
-        return null;	    
+        int index = (int) Math.random()*reviewDB.size();
+        return (JSONObject) reviewDB.get(index);
 	}
 	
 	/**
