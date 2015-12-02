@@ -119,6 +119,17 @@ public class RestaurantDB {
 	    return ("Requested restaurant was not found");
 	}
 	
+	public Set<Restaurant> getAllRestaurants(){
+	   Set<Restaurant> restaurants = new HashSet<Restaurant>();
+	   Iterator<Restaurant> restoIterator= this.restaurantDB.iterator();
+        
+        while(restoIterator.hasNext()){
+            restaurants.add(restoIterator.next());
+        }
+        
+        return restaurants;
+	}
+	
 	/**
 	 * This method adds a new restaurant to the database with suitable checking.
 	 * @param restoDetails restaurant details in JSON format to add to the database.
