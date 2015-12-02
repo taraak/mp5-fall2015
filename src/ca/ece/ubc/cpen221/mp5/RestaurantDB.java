@@ -98,7 +98,7 @@ public class RestaurantDB {
 	 */
 	public JSONObject randomReview(String restoName) {
         int index = (int) Math.random()*reviewDB.size();
-        return (JSONObject) reviewDB.get(index);
+        return reviewDB.get(index).getJSONDetails();
 	}
 	
 	/**
