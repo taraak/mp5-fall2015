@@ -65,13 +65,23 @@ public class Restaurant {
     }
     
     /**
-     * Returns the restaurant details in JSON format
+     * Returns the restaurant's business ID in JSON format
      * 
-     * @return the restaurant details in JSON format
+     * @return the restaurant's business ID  in JSON format
      */
     public String getBusinessID() {
         return this.businessID;
     }
+    
+    /**
+     * Returns the restaurant's name in JSON format
+     * 
+     * @return the restaurant's name in JSON format
+     */
+    public String getName() {
+        return this.name;
+    }
+    
     
     /**
      * Compares this restaurant to another restaurant. Restaurants considered the same if they have the same

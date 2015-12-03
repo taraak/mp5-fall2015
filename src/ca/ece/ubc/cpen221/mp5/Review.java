@@ -1,6 +1,8 @@
 package ca.ece.ubc.cpen221.mp5;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.json.simple.JSONArray;
@@ -18,7 +20,7 @@ public class Review {
     final private String date;
     
     final private String type;
-    
+    final private Map<String, Long> votes = new HashMap<String, Long>();
     private double rating;
     
     /**
@@ -45,6 +47,11 @@ public class Review {
         this.type = this.reviewJSON.get("type").toString();
         
         this.rating = (Double) this.reviewJSON.get("stars");
+        
+        JSONObject allVotes = (JSONObject) this.reviewJSON.get("votes");
+        this.votes.put("cool", (Long) allVotes.get("cool"));
+        this.votes.put("useful", (Long) allVotes.get("useful"));
+        this.votes.put("funny", (Long) allVotes.get("funny"));
     }
     /**
      * Returns the review details in JSON format
@@ -56,7 +63,7 @@ public class Review {
     }
     
     /**
-     * Returns the business ID
+     * Returns the business ID that corresponds to this review
      * 
      * @return the the business ID
      */
@@ -65,7 +72,7 @@ public class Review {
     }
     
     /**
-     * Returns the review ID
+     * Returns the review ID for this review
      * 
      * @return the review ID
      */
@@ -74,7 +81,7 @@ public class Review {
     }
     
     /**
-     * Returns the user ID
+     * Returns the user ID that corresponds to this review
      * 
      * @return the user ID
      */

@@ -6,8 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.json.simple.JSONArray;
@@ -90,15 +92,45 @@ public class RestaurantDB {
 		
 	}
 	
+	//Fuck...How are we supposed to return JSON formatted strings? I DON'T KNOW HOW TO GET RID OF THESE WARNINGS 
 	/**
 	 *  This method random review provides a random review (in JSON format)
 	 *  for the restaurant that matches the provided name. If more than one restaurant
 	 *  matches the name then any restaurant that satisfies the match can be selected.
 	 * @param restoName restaurant name for which to find a review.
 	 */
-	public JSONObject randomReview(String restoName) {
-        int index = (int) Math.random()*reviewDB.size();
-        return reviewDB.get(index).getJSONDetails();
+	public String randomReview(String restoName) {
+	    
+        JSONObject message=new JSONObject();
+        Map<String, String> m=new HashMap<String, String>();
+        ArrayList<String> matchingReviews= new ArrayList<String>();
+        
+        Iterator<Restaurant> restoIterator= this.restaurantDB.iterator();
+        
+        while(restoIterator.hasNext()){
+            Restaurant currentResto=restoIterator.next();
+            
+            if(currentResto.getName().equals(restoName)){
+                
+                String restoBusinessID=currentResto.getBusinessID();
+                for(Review review: reviewDB){
+                    
+                    if(review.getBusinessID().equals(restoBusinessID))
+                        matchingReviews.add(review.getText());
+                }
+                    
+            }
+                
+        }
+        
+        if(matchingReviews.isEmpty()){
+            message.put("Error:", "No reviews found");
+            return message.toJSONString();
+        }
+            
+        
+        int index = (int)Math.random()*matchingReviews.size();
+        return matchingReviews.get(index);
 	}
 	
 	/**
@@ -107,6 +139,7 @@ public class RestaurantDB {
 	 * @param businessID unique business identifier for which to find the associated restaurant.
 	 */
 	public String getRestaurant(String businessID){
+	    JSONObject message=new JSONObject();
 	    
 	    Iterator<Restaurant> restoIterator= this.restaurantDB.iterator();
 	    
@@ -116,27 +149,19 @@ public class RestaurantDB {
 	        if(currentResto.getBusinessID().equals(businessID))
 	            return currentResto.getJSONDetails();
 	    }
-	    return ("Requested restaurant was not found");
+	    message.put("Error", "Invalid Request");
+	    return message.toJSONString();
 	}
 	
-	public Set<Restaurant> getAllRestaurants(){
-	   Set<Restaurant> restaurants = new HashSet<Restaurant>();
-	   Iterator<Restaurant> restoIterator= this.restaurantDB.iterator();
-        
-        while(restoIterator.hasNext()){
-            restaurants.add(restoIterator.next());
-        }
-        
-        return restaurants;
-	}
+	
 	
 	/**
 	 * This method adds a new restaurant to the database with suitable checking.
 	 * @param restoDetails restaurant details in JSON format to add to the database.
 	 */
-	public void addRestaurant(String restoDetails){
-	    //rep invariant: restaurant must not be already in the list
+	public String addRestaurant(String restoDetails){
 	    boolean restoAlreadyThere=false;
+	    JSONObject message=new JSONObject();
 	    
 	       try {
 	            JSONParser parser = new JSONParser();
@@ -151,8 +176,15 @@ public class RestaurantDB {
 	            }
 
 	            if (!restoAlreadyThere) {
-	                this.restaurantDB.add(newRestaurant);
+	                this.restaurantDB.add(newRestaurant);	                
+	                message.put("Added?", true);
+
+	                return message.toJSONString();
 	            }
+	            
+	               
+                message.put("Added?", false);
+                return message.toJSONString();
 
 	        } catch (ParseException e) {
 	            e.printStackTrace();
@@ -164,15 +196,43 @@ public class RestaurantDB {
      * This method adds a new user to the database with suitable checking.
      * @param userDetails user details in JSON format to add to the database.
      */
-    public void addUser(JSONObject userDetails){
-        
+    public String addUser(JSONObject userDetails){
+        return null;
     }
     
     /**
      * This method adds a new review to the database with suitable checking.
      * @param reviewDetails review details in JSON format to add to the database.
      */
-    public void addReview(JSONObject reviewDetails){
+    public String addReview(String reviewDetails){
+        boolean reviewoAlreadyThere=false;
+        JSONObject message=new JSONObject();
+        
+        try {
+             JSONParser parser = new JSONParser();
+             Review newReview = new Review((JSONObject) parser.parse((reviewDetails)));
+
+             Iterator<Review> reviewItr = this.reviewDB.iterator();
+             while (reviewItr.hasNext()) {
+                 if (reviewItr.next().equals(newReview)) {
+                     reviewoAlreadyThere = true;
+                     break;
+                 }
+             }
+
+             if (!reviewoAlreadyThere) {
+                 this.reviewDB.add(newReview);
+                 message.put("Added?", true);
+                 return message.toJSONString();
+             }
+             
+             message.put("Added?", false);
+             return message.toJSONString();
+
+         } catch (ParseException e) {
+             e.printStackTrace();
+             throw new IllegalArgumentException();
+         }  
         
     }
     
@@ -184,7 +244,7 @@ public class RestaurantDB {
 	
 	
 	/*
-	 * Reads a single line
+	 * Helper method that reads a single line
 	 */
 	private JSONObject JSONReader(String fileName){
 	       try{
@@ -212,5 +272,20 @@ public class RestaurantDB {
 	           }
 	    
 	}
+	
+	/**
+	 * Returns a set of all of the restaurants in the database
+	 * @return Set of all of the restaurant in the database
+	 */
+    public Set<Restaurant> getAllRestaurants(){
+        Set<Restaurant> restaurants = new HashSet<Restaurant>();
+        Iterator<Restaurant> restoIterator= this.restaurantDB.iterator();
+         
+         while(restoIterator.hasNext()){
+             restaurants.add(restoIterator.next());
+         }
+         
+         return restaurants;
+     }
 	
 }
