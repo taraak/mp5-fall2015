@@ -41,7 +41,7 @@ public class Review {
         
         this.type = this.reviewJSON.get("type").toString();
         
-        this.rating = (Double) this.reviewJSON.get("stars");
+        this.rating = (Long) this.reviewJSON.get("stars");
         
         JSONObject allVotes = (JSONObject) this.reviewJSON.get("votes");
         this.votes.put("cool", (Long) allVotes.get("cool"));

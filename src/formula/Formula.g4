@@ -27,7 +27,7 @@ package formula;
 
 /*
  * These are the lexical rules. They define the tokens used by the lexer.
- *   *** Antlr requires tokens to be CAPITALIZED, like START_ITALIC, END_ITALIC, and TEXT.
+ *   *** Antlr requires tokens to be CAPITALIZED
  */
 AND : '&&';
 OR : '||';

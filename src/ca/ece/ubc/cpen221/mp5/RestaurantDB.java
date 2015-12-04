@@ -20,6 +20,8 @@ import org.json.simple.parser.ParseException;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
+import formula.FormulaFactory;
+
 
 // TODO: This class represents the Restaurant Database.
 // Define the internal representation and 
@@ -27,9 +29,9 @@ import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 public class RestaurantDB {
     
-    private ArrayList<Restaurant> restaurantDB = new ArrayList<Restaurant>();
-    private ArrayList<Review> reviewDB = new ArrayList<Review>();
-    private ArrayList<User> userDB = new ArrayList<User>();
+    private Set<Restaurant> restaurantDB = new HashSet<Restaurant>();
+    private Set<Review> reviewDB = new HashSet<Review>();
+    private Set<User> userDB = new HashSet<User>();
 
 	/**
 	 * Create a database from the Yelp dataset given the names of three files:
@@ -62,7 +64,7 @@ public class RestaurantDB {
             }
             
             
-            BufferedReader reviewReader=new BufferedReader(new FileReader (restaurantJSONfilename));
+            BufferedReader reviewReader=new BufferedReader(new FileReader (reviewsJSONfilename));
             
             while((currentLine=reviewReader.readLine())!=null){
                 JSONObject JSONReview = (JSONObject) parser.parse(currentLine); 
@@ -71,7 +73,7 @@ public class RestaurantDB {
             }
             
             
-            BufferedReader userReader=new BufferedReader(new FileReader (restaurantJSONfilename));
+            BufferedReader userReader=new BufferedReader(new FileReader (usersJSONfilename));
             
             while((currentLine=userReader.readLine())!=null){
                 JSONObject JSONReview = (JSONObject) parser.parse(currentLine); 
@@ -92,7 +94,6 @@ public class RestaurantDB {
 		
 	}
 	
-	//Fuck...How are we supposed to return JSON formatted strings? I DON'T KNOW HOW TO GET RID OF THESE WARNINGS 
 	/**
 	 *  This method random review provides a random review (in JSON format)
 	 *  for the restaurant that matches the provided name. If more than one restaurant
@@ -102,7 +103,7 @@ public class RestaurantDB {
 	public String randomReview(String restoName) {
 	    
         JSONObject message=new JSONObject();
-        Map<String, String> m=new HashMap<String, String>();
+        
         ArrayList<String> matchingReviews= new ArrayList<String>();
         
         Iterator<Restaurant> restoIterator= this.restaurantDB.iterator();
@@ -237,9 +238,8 @@ public class RestaurantDB {
     }
     
 	public Set<Restaurant> query(String queryString) {
-		// TODO: Implement this method
-		// Write specs, etc.
-		return null;
+	       FormulaFactory queryParser = new FormulaFactory();
+	        return queryParser.parse(queryString, this);
 	}
 	
 	
@@ -277,7 +277,7 @@ public class RestaurantDB {
 	 * Returns a set of all of the restaurants in the database
 	 * @return Set of all of the restaurant in the database
 	 */
-    public Set<Restaurant> getAllRestaurants(){
+    public  Set<Restaurant> getAllRestaurants(){
         Set<Restaurant> restaurants = new HashSet<Restaurant>();
         Iterator<Restaurant> restoIterator= this.restaurantDB.iterator();
          
@@ -286,6 +286,6 @@ public class RestaurantDB {
          }
          
          return restaurants;
-     }
+     } 
 	
 }

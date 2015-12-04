@@ -2,6 +2,7 @@ package ca.ece.ubc.cpen221.mp5;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.json.simple.JSONArray;
@@ -23,7 +24,9 @@ public class Restaurant {
     final private String type;
     
     private double rating;
-    final private int price;
+    final private long price;
+    
+    JSONObject errorMsg = new JSONObject(); //for invalid query
 
     
     /**
@@ -50,9 +53,24 @@ public class Restaurant {
 
         
         this.rating= (Double) this.restoJSON.get("stars");
-        this.price=(int) this.restoJSON.get("price");
+        this.price=(long) this.restoJSON.get("price");
         
         
+    }
+    
+    /**
+     * Create an error restaurant restaurant object.
+     * 
+     */
+    public Restaurant(){
+        errorMsg.put("Error Message", "Invalid Query");
+        
+        this.restoJSON =null;
+        this.businessID="";
+        this.name="";
+        this.type="";
+        this.rating=0.0;
+        this.price=0;
     }
     
     /**
@@ -83,12 +101,57 @@ public class Restaurant {
     }
     
     /**
-     * Returns the restaurant's name in JSON format
+     * Returns the restaurant's rating 
      * 
-     * @return the restaurant's name in JSON format
+     * @return the restaurant's rating
      */
-    public Set<String> getNeighbours() {
-        return this.neighbourhoods;
+    public double getRating() {
+        return this.rating;
+    }
+    
+    /**
+     * Returns the restaurant's price 
+     * 
+     * @return the restaurant's price
+     */
+    public long getPrice() {
+        return this.price;
+    }
+    
+    /**
+     * Returns a set restaurant's neighbourhoods
+     * 
+     * @return a set restaurant's neighbourhoods
+     */
+    public Set<String> getNeighbourhoods() {
+        Set<String> neighbourhoods=new HashSet<String>();
+        
+        Iterator<String> itr = this.neighbourhoods.iterator();
+        while (itr.hasNext()) {
+            String currentNeighbourhood = itr.next();
+            
+            neighbourhoods.add(currentNeighbourhood);
+        }
+        
+        return neighbourhoods;
+    }
+    
+    /**
+     * Returns a set restaurant's categories
+     * 
+     * @return a set restaurant's categories
+     */
+    public Set<String> getCategories() {
+        Set<String> categories=new HashSet<String>();
+        
+        Iterator<String> itr = this.categories.iterator();
+        while (itr.hasNext()) {
+            String currentCategory = itr.next();
+            
+            categories.add(currentCategory);
+        }
+        
+        return categories;
     }
     
     /**
@@ -112,6 +175,19 @@ public class Restaurant {
         return this.businessID.hashCode();
     }
     
+    
+    /**
+     * Returns a copy of this restaurant
+     * 
+     * @return Restaurant that is a copy of this restaurant
+     */
+    @Override
+    public Restaurant clone(){
+        
+        Restaurant newResto=new Restaurant(this.restoJSON);
+        return newResto;
+        
+    }
     
 
 }
