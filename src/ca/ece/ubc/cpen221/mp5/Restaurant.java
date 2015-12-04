@@ -82,6 +82,14 @@ public class Restaurant {
         return this.name;
     }
     
+    /**
+     * Returns the restaurant's name in JSON format
+     * 
+     * @return the restaurant's name in JSON format
+     */
+    public Set<String> getNeighbours() {
+        return this.neighbourhoods;
+    }
     
     /**
      * Compares this restaurant to another restaurant. Restaurants considered the same if they have the same
