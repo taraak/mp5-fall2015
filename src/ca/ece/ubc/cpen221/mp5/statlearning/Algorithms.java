@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,8 @@ public class Algorithms {
 	 * Use k-means clustering to compute k clusters for the restaurants in the
 	 * database.
 	 * 
-	 * @param db
+	 * @param k
+	 * @param db the restaurant database
 	 * @return
 	 */
 	public static List<Set<Restaurant>> kMeansClustering(int k, RestaurantDB db) {

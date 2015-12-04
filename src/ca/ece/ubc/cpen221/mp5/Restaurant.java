@@ -47,7 +47,7 @@ public class Restaurant {
         
         this.name=this.restoJSON.get("name").toString();
         
-        JSONArray categories=(JSONArray) this.restoJSON.get("neighborhoods");
+        JSONArray categories=(JSONArray) this.restoJSON.get("categories");
         for(Object object:categories){
             this.categories.add(object.toString());
         }

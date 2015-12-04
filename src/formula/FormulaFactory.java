@@ -42,7 +42,6 @@ public class FormulaFactory {
             
             // Generate the parse tree using the starter rule.
             ParseTree tree = parser.orExpr(); // "root" is the starter rule.
-            System.out.println("FUUUCK");
             
             // debugging option #1: print the tree to the console
             //System.err.println(tree.toStringTree(parser));
@@ -240,7 +239,7 @@ public class FormulaFactory {
             System.err.println("entering and expression " + ctx.getText());
         }
         public void exitAndExpr(@NotNull FormulaParser.AndExprContext ctx) { 
-            System.err.println("entering exiting and expression " + ctx.getText());
+            System.err.println("exiting and expression " + ctx.getText());
         }
 
     }
