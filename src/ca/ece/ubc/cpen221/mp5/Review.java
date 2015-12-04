@@ -28,13 +28,8 @@ public class Review {
      * 
      */
     public Review(JSONObject obj) {
-        //Idk about using clone() here, will it only produce an object with the same hashcode?
-        //says it only produces a shallow copy
+        
         this.reviewJSON = (JSONObject) obj.clone();
-        //WHY DOESNT THIS WORK WHY THE ONLINE DOCS SAY IT CONSTRUCTS A JSON OBJECT LIKE THAT
-        //ALSO WTF WHY ARE ALL THESE METHODS NOT REAL SUCH AS obj.getNames() DOESNT EXIST
-//        String[] names = {"business_id", "user_id", "review_id", "text", "date", "type", "rating"};
-//        this.reviewJSON = new JSONObject(obj, names);
 
         this.businessID = this.reviewJSON.get("business_id").toString();
         this.userID = this.reviewJSON.get("user_id").toString();

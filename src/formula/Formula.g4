@@ -1,8 +1,8 @@
-grammar RestaurantGrammar;
+grammar Formula;
 
 // This puts "package formula;" at the top of the output Java files.
 @header {
-package RestaurantGrammar;
+package formula;
 }
 
 // This adds code to the generated lexer and parser. Do not change these lines.
@@ -29,16 +29,24 @@ package RestaurantGrammar;
  * These are the lexical rules. They define the tokens used by the lexer.
  *   *** Antlr requires tokens to be CAPITALIZED, like START_ITALIC, END_ITALIC, and TEXT.
  */
-<orExpr> ::= <andExpr>(<or><andExpr>)*
-<andExpr> ::= <atom>(<and><atom>)*
-<atom> ::= <in>|<category>|<rating>|<price>|<name>|<LParen><orExpr><RParen>
-<or> ::= "||"
-<and> ::= "&&"
-<in> ::= "in" <LParen><string><RParen>
-<category> ::= "category" <LParen><string><RParen>
-<name> ::= "name" <LParen><string><RParen>
-<rating> ::= "rating" <LParen><range><RParen>
-<price> ::= "price" <LParen><range><RParen>
-<range> ::= [1-5]..[1-5]
-<LParen> ::= "("
-<RParen> ::= ")"
+AND : '&&';
+OR : '||';
+IN : 'in' LPAREN STRING RPAREN;
+CATEGORY : 'category' LPAREN STRING RPAREN;
+RATING : 'rating' LPAREN RANGE RPAREN;
+PRICE : 'price' LPAREN RANGE RPAREN;
+NAME : 'name' LPAREN STRING RPAREN;
+LPAREN : '(' ;
+RPAREN : ')' ;
+RANGE : [1-5]'..'[1-5];
+WHITESPACE : [ \t\r\n]+ -> skip ;
+STRING: [a-zA-Z0-9] [a-zA-Z0-9' '&]*;
+
+
+/*
+ * These are the parser rules. They define the structures used by the parser.
+ * 
+ */
+orExpr : andExpr (OR andExpr)*;
+andExpr : atom (AND atom)*;
+atom : IN | CATEGORY | RATING | PRICE | NAME | (LPAREN orExpr RPAREN);

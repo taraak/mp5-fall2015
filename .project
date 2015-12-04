@@ -3,6 +3,7 @@
 	<name>mp5-fall2015</name>
 	<comment></comment>
 	<projects>
+		<project>lab9-fall2015</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
