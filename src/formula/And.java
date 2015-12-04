@@ -40,34 +40,4 @@ public class And implements Formula {
         return answer;
         
     }
-    
-//  @Override
-//  public Set<Restaurant> evaluate() {
-//      
-//      Stack<Set<Restaurant>> result=new Stack<>();
-//      
-//      for(Atom atom:this.atoms){
-//          result.push(atom.evaluate());
-//      }
-//      
-//      Set<Restaurant> result1=new HashSet<>();
-//      Set<Restaurant> result2=new HashSet<>();
-//      
-//      if(result.size()==1)
-//          return result1;
-//      
-//      while(!result.isEmpty()){
-//          result1=result.pop();
-//          
-//          if(result.isEmpty()){
-//              break;
-//          }
-//          else{
-//              result2=result.pop();
-//              result.push(and(result1,result2));
-//          }
-//      }
-//      
-//      return result1;
-//  }
 }

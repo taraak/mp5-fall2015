@@ -42,6 +42,7 @@ public class FormulaFactory {
             
             // Generate the parse tree using the starter rule.
             ParseTree tree = parser.orExpr(); // "root" is the starter rule.
+            System.out.println("FUUUCK");
             
             // debugging option #1: print the tree to the console
             //System.err.println(tree.toStringTree(parser));
@@ -107,6 +108,8 @@ public class FormulaFactory {
                     
                     Or or = new Or(result1, result2);
                     stack.push(or.evaluate()); 
+                    
+                    count++;
                 }
                 
             } 
@@ -130,6 +133,8 @@ public class FormulaFactory {
                     
                     And and = new And(result1, result2);
                     stack.push(and.evaluate());  
+                    
+                    count++;
                 }
                 
             }
@@ -159,9 +164,9 @@ public class FormulaFactory {
             else if(ctx.start.getType()==FormulaParser.CATEGORY){
                 
                 // request type should be in
-                String requestType = text.substring(0, 9);
+                String requestType = text.substring(0, 8);
                 // we want category toFind
-                String toFind = text.substring(11, text.length() - 2);
+                String toFind = text.substring(10, text.length() - 2);
                 
                 Atom atom = new Atom(requestType,toFind,database);
                 

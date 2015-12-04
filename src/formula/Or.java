@@ -36,32 +36,5 @@ public class Or implements Formula {
         return answer;
         
     }
-    
-//  public Set<Restaurant> evaluate() {
-//  
-//  Stack<Set<Restaurant>> result=new Stack<>();
-//  
-//  for(And andExpr:andExps){
-//      result.push(andExpr.evaluate());
-//  }
-//  
-//  Set<Restaurant> result1=new HashSet<>();
-//  Set<Restaurant> result2=new HashSet<>();
-//  
-//  while(!result.isEmpty()){
-//      
-//      result1=result.pop();
-//      if(result.isEmpty()){
-//          break;
-//      }
-//      else{
-//          result2=result.pop();
-//          result.push(or(result1,result2));
-//      }
-//  }
-//  
-//  return result1;
-//}
-//
 
 }

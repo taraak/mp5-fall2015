@@ -20,10 +20,10 @@ public class FormulaParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		AND=1, OR=2, IN=3, CATEGORY=4, RATING=5, PRICE=6, NAME=7, LPAREN=8, RPAREN=9, 
-		RANGE=10, WHITESPACE=11, STRING=12;
+		STRING=10, RANGE=11, WHITESPACE=12;
 	public static final String[] tokenNames = {
 		"<INVALID>", "'&&'", "'||'", "IN", "CATEGORY", "RATING", "PRICE", "NAME", 
-		"'('", "')'", "RANGE", "WHITESPACE", "STRING"
+		"'('", "')'", "STRING", "RANGE", "WHITESPACE"
 	};
 	public static final int
 		RULE_orExpr = 0, RULE_andExpr = 1, RULE_atom = 2;

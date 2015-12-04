@@ -17,6 +17,7 @@ public class Atom implements Formula {
     public Atom(String type, String toFind, RestaurantDB restoDB){
         this.requestType=type;
         this.toFind=toFind;
+        
         Iterator<Restaurant> restoIterator= restoDB.getAllRestaurants().iterator();
         
         while(restoIterator.hasNext()){
@@ -28,7 +29,7 @@ public class Atom implements Formula {
     public Set<Restaurant> evaluate() {
         Set<Restaurant> results = Collections.synchronizedSet(new HashSet<Restaurant>());
         
-        if ("namr".equals(requestType)) {
+        if (requestType.equals("name")) {
             
             Iterator<Restaurant> restaurantItr = this.restoDB.iterator();
             while (restaurantItr.hasNext()) {
@@ -66,7 +67,7 @@ public class Atom implements Formula {
             }
         }
         
-        else if ("rating".equals(requestType)) {
+        else if (requestType.equals("rating")) {
             
             Iterator<Restaurant> restaurantItr = this.restoDB.iterator();
             while (restaurantItr.hasNext()) {
@@ -80,7 +81,7 @@ public class Atom implements Formula {
             }
         }
         
-        else if ("price".equals(requestType)) {
+        else if (requestType.equals("price")) {
             
             Iterator<Restaurant> restaurantItr = this.restoDB.iterator();
             while (restaurantItr.hasNext()) {

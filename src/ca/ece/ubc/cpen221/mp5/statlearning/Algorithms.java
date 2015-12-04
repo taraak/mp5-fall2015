@@ -1,8 +1,11 @@
 package ca.ece.ubc.cpen221.mp5.statlearning;
 
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -18,31 +21,97 @@ public class Algorithms {
 	 * @param db
 	 * @return
 	 */
-    //SUPER unfinished, going to read up on using map filter reduce in java, it would be really helpful here
 	public static List<Set<Restaurant>> kMeansClustering(int k, RestaurantDB db) {
-		// TODO: Implement this method
-	    //choose k random start centroids
-	    //for each restaurant in the database, assign it to the set for which that restaurant is the closest
-	    //for each centroid, find a new centroid
-	    //repeat until stable
+	    
+	  //get a set of all restaurants in the database
 	    Set<Restaurant> restaurants = db.getAllRestaurants();
-	    List<Map<Location, Set<Restaurant>>> cToResto = new LinkedList<Map<Location, Set<Restaurant>>>();
-	    List<Location> centroids = new LinkedList<Location>;
+	  //originally initialize random location as centroids
+	    Set<Location> centroids=Location.getRandomLocation(k);
 	    
-	    for(int i = 0; i < k; i++){
-	        Location cLoc = Location.getRandomLocation();
-	        Map centroid = new HashMap<Location, Set<Restaurant>>();
-	        centroid.put(cLoc, new HashSet<Restaurant>());
-	        cToResto.add(centroid);
-	        centroids.add(cLoc);
-	    }
 	    
-	    for (Restaurant resto : db.getAllRestaurants()){
-	       
-	    }
-		return null;
+	    Map<Location, Set<Restaurant>> clusters=makeClusters(restaurants,centroids);
+	    
+	    //need to finish this
+	  return null;
 	}
+	
+	/*
+	 * Helper method that make clusters of restaurants so that the restaurant's distance to its own clustre's
+	 * centroid is smaller than its distance to all the other centroids
+	 * 
+	 * @param set of all restaurants in the database
+	 * @param set of k centroids
+     * @return a map that maps each set of restaurants that represent one cluster to their respective centroid
+	 */
+	public static Map<Location, Set<Restaurant>> makeClusters(Set<Restaurant> restuarants, Set<Location> centroids){
+	    Map<Location, Set<Restaurant>> clusters= new ConcurrentHashMap<Location, Set<Restaurant>>();
+	    
+	    Iterator<Restaurant> restoItr=restuarants.iterator();
+        while(restoItr.hasNext()){
+            Double distance=Double.MAX_VALUE;
+            
+            Restaurant currentResto=restoItr.next();
+            Location restoLocation=new Location(currentResto.getLocation());
+            
+            Iterator<Location> centroidItr=centroids.iterator();
+            while(centroidItr.hasNext()){
+                
+                Location currentCentroid=centroidItr.next();
+                Double newDistance=Location.getDistance(restoLocation, currentCentroid);
+                
+                if(newDistance<distance){
+                    
+                    if(clusters.get(currentCentroid)==null){
+                        Set<Restaurant> oneCluster= new HashSet<Restaurant>();
+                        oneCluster.add(currentResto);
+                        clusters.put(currentCentroid, oneCluster);
+                    }
+                    
+                    else
+                        clusters.get(currentCentroid).add(currentResto);
+                    
+                    distance=newDistance;
+                    }
+                }
+            }
+        
+        return clusters;
+	}
+	
+	/**
+     * Helper method to make a set of new centroids for the cluster
+     * New centoid for each cluster is the average fo sum of longitudes and latitudes for each restaurant
+     *      in that cluster
+     * @param a mapping of centoids to a set of restaurtants representing a cluster
+     * @return a set of new centroids
+     */
+    public Set<Location> getNewCentroids(Map<Location, Set<Restaurant>> clusters){
+        
+        Set<Location> newCentroids = new HashSet<Location>();
+        
+        for (Location centroid : clusters.keySet()) {
+            Double longitudeSum=0.0;
+            Double latitudeSum=0.0;
+            
+            for(Restaurant resto:clusters.get(centroid)){
+                Location restoLocation=new Location(resto.getLocation());
+                
+                longitudeSum+=restoLocation.getLongitude();
+                latitudeSum+=restoLocation.getLatitude();
+            }
+            
+            Double newLongitude=longitudeSum/clusters.get(centroid).size();
+            Double newLatitude=latitudeSum/clusters.get(centroid).size();
+            
+            Location newCentroid=new Location(newLongitude, newLatitude);
+            newCentroids.add(newCentroid);
+        }
 
+        return Collections.unmodifiableSet(newCentroids);
+    }
+
+	
+	
 	public static String convertClustersToJSON(List<Set<Restaurant>> clusters) {
 		// TODO: Implement this method
 		return null;

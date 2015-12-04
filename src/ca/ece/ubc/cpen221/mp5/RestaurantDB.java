@@ -274,7 +274,7 @@ public class RestaurantDB {
 	}
 	
 	/**
-	 * Returns a set of all of the restaurants in the database
+	 * Helper method that returns a set of all of the restaurants in the database
 	 * @return Set of all of the restaurant in the database
 	 */
     public  Set<Restaurant> getAllRestaurants(){

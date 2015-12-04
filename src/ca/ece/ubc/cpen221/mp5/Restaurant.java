@@ -14,14 +14,13 @@ import org.json.simple.JSONObject;
 public class Restaurant {
     final private JSONObject restoJSON;
    
-    
-    final private double[] location = { 0, 0 };
+  //array represents location with longitude at first index and latitude at the second
+    final private Double[] location = { 0.0, 0.0 }; 
     final private Set<String> neighbourhoods = new HashSet<String>();
     final private String businessID;
     
     final private String name;
     final private Set<String> categories = new HashSet<String>();
-    final private String type;
     
     private double rating;
     final private long price;
@@ -36,6 +35,9 @@ public class Restaurant {
     public Restaurant(JSONObject obj){
         this.restoJSON = (JSONObject) obj.clone();
         
+        this.location[0] = (Double) this.restoJSON.get("longitude");
+        this.location[1] = (Double) this.restoJSON.get("latitude");
+        
         this.businessID=this.restoJSON.get("business_id").toString();
         
         JSONArray neighbourhoods=(JSONArray) this.restoJSON.get("neighborhoods");
@@ -44,7 +46,6 @@ public class Restaurant {
         }
         
         this.name=this.restoJSON.get("name").toString();
-        this.type=this.restoJSON.get("type").toString();
         
         JSONArray categories=(JSONArray) this.restoJSON.get("neighborhoods");
         for(Object object:categories){
@@ -67,8 +68,7 @@ public class Restaurant {
         
         this.restoJSON =null;
         this.businessID="";
-        this.name="";
-        this.type="";
+        this.name="Error";
         this.rating=0.0;
         this.price=0;
     }
@@ -116,6 +116,16 @@ public class Restaurant {
      */
     public long getPrice() {
         return this.price;
+    }
+    
+    /**
+     * Returns the restaurant's price 
+     * 
+     * @return the restaurant's price
+     */
+    public Double[] getLocation() {
+        Double[] location={this.location[0] , this.location[1]};
+        return location;
     }
     
     /**

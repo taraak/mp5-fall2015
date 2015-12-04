@@ -29,6 +29,7 @@ package formula;
  * These are the lexical rules. They define the tokens used by the lexer.
  *   *** Antlr requires tokens to be CAPITALIZED
  */
+
 AND : '&&';
 OR : '||';
 IN : 'in' LPAREN STRING RPAREN;
@@ -38,9 +39,9 @@ PRICE : 'price' LPAREN RANGE RPAREN;
 NAME : 'name' LPAREN STRING RPAREN;
 LPAREN : '(' ;
 RPAREN : ')' ;
+STRING: '"'(([a-z]|[A-Z]|[0-9])+ WHITESPACE*)+ '"';
 RANGE : [1-5]'..'[1-5];
 WHITESPACE : [ \t\r\n]+ -> skip ;
-STRING: [a-zA-Z0-9] [a-zA-Z0-9' '&]*;
 
 
 /*

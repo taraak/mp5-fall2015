@@ -14,14 +14,14 @@ public class FormulaFactoryTest {
         public void Test1() {
             FormulaFactory parser = new FormulaFactory();
 
-            String query = "(category(\"Chinese\") || category(\"Italian\") + && price(1..2) ";
+            String query = "category(\"Chinese\")";
 
-            Set<Restaurant> result = parser.parse(query, testDB);
+            Set<Restaurant> results = parser.parse(query, testDB);
 
-            for (Restaurant current : result) {
+            for (Restaurant current : results) {
                 System.out.println(current.getName());
             }
-            if (result.isEmpty()) {
+            if (results.isEmpty()) {
                 System.out.println("no results");
             }
         }

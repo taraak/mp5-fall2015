@@ -21,7 +21,7 @@ public class Review {
     
     final private String type;
     final private Map<String, Long> votes = new HashMap<String, Long>();
-    private double rating;
+    private long rating;
     
     /**
      * Create a review object.
