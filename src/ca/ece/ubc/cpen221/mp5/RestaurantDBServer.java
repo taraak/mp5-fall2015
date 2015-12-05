@@ -10,9 +10,9 @@ import java.net.Socket;
 public class RestaurantDBServer implements Runnable {
     
     private int port;
-    private String reviewsJSONfilename; 
-    private String restaurantJSONfilename; 
-    private String usersJSONfilename; 
+    private String reviewsFile; 
+    private String restoFile; 
+    private String usersFile; 
     private ServerSocket serverSocket;
     private Boolean isStopped = false;
 
@@ -26,16 +26,17 @@ public class RestaurantDBServer implements Runnable {
 	 */
 	public RestaurantDBServer(int port, String restoFile, String reviewsFile, String usersFile) {
 	    this.port = port;
-        this.restaurantJSONfilename = restoFile;
-        this.reviewsJSONfilename = reviewsFile;
-        this.usersJSONfilename = usersFile;
+        this.restoFile = restoFile;
+        this.reviewsFile = reviewsFile;
+        this.usersFile = usersFile;
 
 	}
 
     public void run(){
+        RestaurantDB database = new RestaurantDB(restoFile, reviewsFile, usersFile);
         
         openServerSocket();
-        while(! isStopped()){
+        while(!isStopped()){
             
             Socket clientSocket = null;
             
