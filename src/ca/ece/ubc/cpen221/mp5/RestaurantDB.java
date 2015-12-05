@@ -197,8 +197,37 @@ public class RestaurantDB {
      * This method adds a new user to the database with suitable checking.
      * @param userDetails user details in JSON format to add to the database.
      */
-    public String addUser(JSONObject userDetails){
-        return null;
+    public String addUser(String userDetails){
+        boolean userAlreadyThere=false;
+        JSONObject message=new JSONObject();
+        
+           try {
+                JSONParser parser = new JSONParser();
+                User newUser = new User((JSONObject) parser.parse((userDetails)));
+
+                Iterator<User> userItr = this.userDB.iterator();
+                while (userItr.hasNext()) {
+                    if (userItr.next().equals(newUser)) {
+                        userAlreadyThere = true;
+                        break;
+                    }
+                }
+
+                if (!userAlreadyThere) {
+                    this.userDB.add(newUser);                   
+                    message.put("Added?", true);
+
+                    return message.toJSONString();
+                }
+                
+                   
+                message.put("Added?", false);
+                return message.toJSONString();
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                throw new IllegalArgumentException();
+            } 
     }
     
     /**
