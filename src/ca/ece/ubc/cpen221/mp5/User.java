@@ -44,7 +44,7 @@ public class User {
      * @return the user details in JSON format
      */
     public JSONObject getJSONDetails() {
-        return (JSONObject) this.userJSON.clone();
+        return Util.jsonCopier(userJSON);
     }
     
     /**

@@ -78,8 +78,8 @@ public class Restaurant {
      * 
      * @return the restaurant details in JSON format
      */
-    public String getJSONDetails() {
-        return this.restoJSON.toJSONString();
+    public JSONObject getJSONDetails() {
+        return Util.jsonCopier(restoJSON);
     }
     
     /**

@@ -100,11 +100,11 @@ public class RestaurantDB {
 	 *  matches the name then any restaurant that satisfies the match can be selected.
 	 * @param restoName restaurant name for which to find a review.
 	 */
-	public String randomReview(String restoName) {
+	public JSONObject randomReview(String restoName) {
 	    
         JSONObject message=new JSONObject();
         
-        ArrayList<String> matchingReviews= new ArrayList<String>();
+        ArrayList<JSONObject> matchingReviews= new ArrayList<JSONObject>();
         
         Iterator<Restaurant> restoIterator= this.restaurantDB.iterator();
         
@@ -117,7 +117,7 @@ public class RestaurantDB {
                 for(Review review: reviewDB){
                     
                     if(review.getBusinessID().equals(restoBusinessID))
-                        matchingReviews.add(review.getText());
+                        matchingReviews.add(review.getJSONDetails());
                 }
                     
             }
@@ -126,7 +126,7 @@ public class RestaurantDB {
         
         if(matchingReviews.isEmpty()){
             message.put("Error:", "No reviews found");
-            return message.toJSONString();
+            return message;
         }
             
         
@@ -139,7 +139,7 @@ public class RestaurantDB {
 	 * that has the provided business identifier.
 	 * @param businessID unique business identifier for which to find the associated restaurant.
 	 */
-	public String getRestaurant(String businessID){
+	public JSONObject getRestaurant(String businessID){
 	    JSONObject message=new JSONObject();
 	    
 	    Iterator<Restaurant> restoIterator= this.restaurantDB.iterator();
@@ -151,7 +151,7 @@ public class RestaurantDB {
 	            return currentResto.getJSONDetails();
 	    }
 	    message.put("Error", "Invalid Request");
-	    return message.toJSONString();
+	    return message;
 	}
 	
 	

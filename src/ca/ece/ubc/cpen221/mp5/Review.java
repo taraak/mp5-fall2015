@@ -54,7 +54,7 @@ public class Review {
      * @return the review details in JSON format
      */
     public JSONObject getJSONDetails() {
-        return (JSONObject) this.reviewJSON.clone();
+        return Util.jsonCopier(reviewJSON);
     }
     
     /**

@@ -13,13 +13,21 @@ import org.json.simple.JSONObject;
 
 public class Util {
     
-    //TODO put these together into a JSON object copier
+    public static JSONObject jsonCopier(JSONObject obj){
+        Map<Object, Object> jsonMap = new HashMap<Object, Object>();
+        for (Object key : obj.keySet()){
+            jsonMap.put(key, obj.get(key));
+        }
+        return new JSONObject(jsonMap);
+    }
+    
+    //NOT NECESSARY I DIDNT KNOW ABOUT KEYSET
     
     public static Map<String, Object> jsonToMap(JSONObject object) /*throws JSONException */ {
         Map<String, Object> map = new HashMap<String, Object>();
 
         if(object != null) {
-            for(String key : object.getJSONKeys()) {
+            for(String key : getJSONKeys(object)) {
                 Object value = object.get(key);
 
                 if(value instanceof JSONArray) {
