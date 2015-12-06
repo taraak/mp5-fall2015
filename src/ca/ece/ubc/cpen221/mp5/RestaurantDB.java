@@ -100,7 +100,7 @@ public class RestaurantDB {
 	 *  matches the name then any restaurant that satisfies the match can be selected.
 	 * @param restoName restaurant name for which to find a review.
 	 */
-	public JSONObject randomReview(String restoName) {
+	public String randomReview(String restoName) {
 	    
         JSONObject message=new JSONObject();
         
@@ -126,7 +126,7 @@ public class RestaurantDB {
         
         if(matchingReviews.isEmpty()){
             message.put("Error:", "No reviews found");
-            return message;
+            return message.toJSONString();
         }
             
         
@@ -139,19 +139,22 @@ public class RestaurantDB {
 	 * that has the provided business identifier.
 	 * @param businessID unique business identifier for which to find the associated restaurant.
 	 */
-	public JSONObject getRestaurant(String businessID){
+	public String getRestaurant(String businessID){
 	    JSONObject message=new JSONObject();
 	    
 	    Iterator<Restaurant> restoIterator= this.restaurantDB.iterator();
 	    
+	    
 	    while(restoIterator.hasNext()){
 	        Restaurant currentResto=restoIterator.next();
 	        
-	        if(currentResto.getBusinessID().equals(businessID))
-	            return currentResto.getJSONDetails();
+	        if(currentResto.getBusinessID().equals(businessID) 
+	                && !"Error".equals(currentResto.getName()))
+	                
+	            return currentResto.getJSONDetails().toJSONString();
 	    }
 	    message.put("Error", "Invalid Request");
-	    return message;
+	    return message.toJSONString();
 	}
 	
 	
@@ -272,35 +275,7 @@ public class RestaurantDB {
 	}
 	
 	
-	/*
-	 * Helper method that reads a single line
-	 */
-	private JSONObject JSONReader(String fileName){
-	       try{
-	            JSONParser parser = new JSONParser();
 
-	            BufferedReader reader=new BufferedReader(new FileReader (fileName));
-	            String currentLine=reader.readLine();
-	            
-	            if(currentLine==null){
-	                throw new IllegalArgumentException();
-	            }
-	            
-	            JSONObject object = (JSONObject) parser.parse(currentLine);
-	            return object;
-	            
-	           }catch (FileNotFoundException e) {
-	               e.printStackTrace();
-	               throw new IllegalArgumentException();
-	           } catch (IOException e) {
-	               e.printStackTrace();
-	               throw new IllegalArgumentException();
-	           } catch (ParseException e) {
-	               e.printStackTrace();
-	               throw new IllegalArgumentException();
-	           }
-	    
-	}
 	
 	/**
 	 * Helper method that returns a set of all of the restaurants in the database
@@ -316,5 +291,35 @@ public class RestaurantDB {
          
          return restaurants;
      } 
+    
+//  /*
+//  * Helper method that reads a single line
+//  */
+// private JSONObject JSONReader(String fileName){
+//        try{
+//             JSONParser parser = new JSONParser();
+//
+//             BufferedReader reader=new BufferedReader(new FileReader (fileName));
+//             String currentLine=reader.readLine();
+//             
+//             if(currentLine==null){
+//                 throw new IllegalArgumentException();
+//             }
+//             
+//             JSONObject object = (JSONObject) parser.parse(currentLine);
+//             return object;
+//             
+//            }catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//                throw new IllegalArgumentException();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                throw new IllegalArgumentException();
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//                throw new IllegalArgumentException();
+//            }
+//     
+// }
 	
 }
