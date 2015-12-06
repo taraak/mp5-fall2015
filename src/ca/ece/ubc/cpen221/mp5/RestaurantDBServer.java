@@ -9,12 +9,14 @@ import java.net.Socket;
 
 public class RestaurantDBServer implements Runnable {
     
-    private int port;
+    private final int port;
     private String reviewsFile; 
     private String restoFile; 
     private String usersFile; 
     private ServerSocket serverSocket;
     private Boolean isStopped = false;
+    
+    private final RestaurantDB database;
 
 	/**
 	 * Constructor
@@ -24,18 +26,19 @@ public class RestaurantDBServer implements Runnable {
 	 * @param reviewsJSONfilename
 	 * @param usersJSONfilename
 	 */
-	public RestaurantDBServer(int port, String restoFile, String reviewsFile, String usersFile) {
+	public RestaurantDBServer(int port, String restaurantDetails, String userReviews, String userDetails) {
 	    this.port = port;
-        this.restoFile = restoFile;
-        this.reviewsFile = reviewsFile;
-        this.usersFile = usersFile;
+	    
+        this.database = new RestaurantDB(restaurantDetails, userReviews, userDetails);
+        System.out.println("Database created");
 
+        openServerSocket();
 	}
 
     public void run(){
-        RestaurantDB database = new RestaurantDB(restoFile, reviewsFile, usersFile);
         
         openServerSocket();
+        
         while(!isStopped()){
             
             Socket clientSocket = null;
@@ -43,37 +46,55 @@ public class RestaurantDBServer implements Runnable {
             try {
                 clientSocket = this.serverSocket.accept();
             } catch (IOException e) {
+                
                 if(isStopped()) {
-                    System.out.println("Server Stopped.") ;
-                    return;
+                    System.out.println("Server Not  On.") ;
                 }  
-                throw new RuntimeException( "Error accepting client connection", e);
+                else{
+                    e.printStackTrace();
+                    throw new IllegalArgumentException( "Error accepting client connection", e);
+                }
             }
-            new Thread(new RestaurantDBWorkerThread(clientSocket)).start();
+            new Thread(new RestaurantDBWorkerThread(clientSocket,this.database)).start();
         }
-        System.out.println("Server Stopped.") ;
     }
-
+    
+    
 
     private synchronized boolean isStopped() {
         return this.isStopped;
     }
 
+    /**
+     * Helper method to stop the server socket.
+     */
     public synchronized void stop(){
-        this.isStopped = true;
+       
         try {
             this.serverSocket.close();
+            this.isStopped = true;
+            
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException("Error closing server", e);
         }
     }
 
+    /**
+     * Helper method to to open  server socket.
+     */
     private void openServerSocket() {
         try {
             this.serverSocket = new ServerSocket(this.port);
+            isStopped=false;
+            System.out.println("Server Socket Opened");
+            
         } catch (IOException e) {
+            
+            isStopped=true;
             throw new RuntimeException("Cannot open port" + port, e);
         }
+        
     }
 
 	public void main(String[] args){

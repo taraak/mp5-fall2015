@@ -83,6 +83,26 @@ public class Location {
         return randomLocations;
     }
     
-    //NEED TO OVERRIDE EQULITY FOR LOCATION
+    /**
+     * Overrides equality method for location; they are equal if their longitude and 
+     * latitude are very close (to the order of 10^-14)
+     */
+    @Override 
+    public boolean equals (Object obj){
+        
+        Location objLocation=(Location) obj;
+        
+        double longThis=this.getLongitude();
+        double latThis=this.getLatitude();
+        
+        double longThat=objLocation.getLongitude();
+        double latThat=objLocation.getLatitude();
+        
+        if(Math.abs(longThat-longThis)<= 0.00000000000005 
+                && Math.abs(latThis - latThat) <= 0.00000000000005)
+            return true;
+        
+        return false;
+    }
     
 }

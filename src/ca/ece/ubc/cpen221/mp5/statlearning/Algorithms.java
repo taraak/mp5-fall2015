@@ -2,6 +2,7 @@ package ca.ece.ubc.cpen221.mp5.statlearning;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,8 +32,26 @@ public class Algorithms {
 	    
 	    Map<Location, Set<Restaurant>> clusters=makeClusters(restaurants,centroids);
 	    
-	    //need to finish this
-	  return null;
+	    Set<Location> previousCentroids= centroids;
+	    Set<Location> newCentroids=getNewCentroids(clusters);
+	    
+	    while(!newCentroids.equals(previousCentroids)){
+	        
+	        clusters=makeClusters(restaurants,newCentroids);
+	        
+	        previousCentroids=newCentroids;
+	        newCentroids=getNewCentroids(clusters);
+	    }
+	    
+	    
+	    List<Set<Restaurant>> clustersList= Collections.synchronizedList
+	            (new ArrayList<Set<Restaurant>>());
+	    
+        for (Location location : clusters.keySet()) {
+            clustersList.add(clusters.get(location));
+        } 
+	    
+	  return clustersList;
 	}
 	
 	/*
@@ -85,7 +104,7 @@ public class Algorithms {
      * @param a mapping of centoids to a set of restaurtants representing a cluster
      * @return a set of new centroids
      */
-    public Set<Location> getNewCentroids(Map<Location, Set<Restaurant>> clusters){
+    public static Set<Location> getNewCentroids(Map<Location, Set<Restaurant>> clusters){
         
         Set<Location> newCentroids = new HashSet<Location>();
         
