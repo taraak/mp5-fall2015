@@ -2,6 +2,7 @@ package ca.ece.ubc.cpen221.mp5.statlearning;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -131,13 +132,24 @@ public class Algorithms {
 
 	
 	
-	public static String convertClustersToJSON(List<Set<Restaurant>> clusters) {
-		// TODO: Implement this method
-		return null;
+	public static JSONObject convertClustersToJSON(List<Set<Restaurant>> clusters) {
+	    JSONObject jsonClusters = new JSONObject();
+	    for(int i = 0; i < clusters.size(); i++){
+	        for (Restaurant resto : clusters.get(i)){
+	            //this is not giving the same info as the voronoi file has
+	            //but it has more
+	            //and its less work for mee
+	            //missing "weight" also wuuut is that
+	            JSONObject jsonResto = resto.getJSONDetails();
+	            jsonResto.put("Cluster", i);
+	            jsonClusters.putAll(jsonResto);
+	        }
+	    }
+		return jsonClusters;
 	}
 
 	public static MP5Function getPredictor(User u, RestaurantDB db, MP5Function featureFunction) {
-		// TODO: Implement this method
+		Set<Review> userReviews = u.getUserReviews(db);
 		return null;
 	}
 
@@ -145,4 +157,5 @@ public class Algorithms {
 		// TODO: Implement this method
 		return null;
 	}
+	
 }

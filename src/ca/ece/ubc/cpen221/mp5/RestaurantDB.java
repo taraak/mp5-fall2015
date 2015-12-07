@@ -292,6 +292,21 @@ public class RestaurantDB {
          return restaurants;
      } 
     
+    /**
+     * Helper method that returns a set of all of the reviews in the database
+     * @return Set of all of the reviews in the database
+     */
+    public  Set<Review> getAllReviews(){
+        Set<Review> reviews = new HashSet<Review>();
+        Iterator<Review> reviewIterator= this.reviewDB.iterator();
+         
+         while(reviewIterator.hasNext()){
+             reviews.add(reviewIterator.next());
+         }
+         
+         return reviews;
+     } 
+    
 //  /*
 //  * Helper method that reads a single line
 //  */

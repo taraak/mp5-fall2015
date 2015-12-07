@@ -1,7 +1,9 @@
 package ca.ece.ubc.cpen221.mp5;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.simple.JSONObject;
 
@@ -93,6 +95,24 @@ public class User {
         return this.reviewCount;
     }
     
+    /**
+     * 
+     * @param db
+     * @return
+     */
+    public Set<Review> getUserReviews(RestaurantDB db){
+        Set<Review> allReviews = db.getAllReviews();
+        Set<Review> userReviews = new HashSet<Review>();
+        
+        for(Review review : allReviews){
+            if(review.getUserID().equals(userID)){
+                userReviews.add(review);
+            }
+        }
+        
+        return userReviews;       
+    }
+  
     /**
      * Returns the user's average rating
      * 
