@@ -7,8 +7,7 @@ public class PriceFF implements MP5Function {
 
     @Override
     public double f(Restaurant yelpRestaurant, RestaurantDB db) {
-        // TODO Auto-generated method stub
-        return 0;
+        return yelpRestaurant.getPrice();
     }
 
 }

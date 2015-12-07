@@ -138,10 +138,9 @@ public class RestaurantDB {
 	 * This method provides the restaurant details in JSON format for the restaurant
 	 * that has the provided business identifier.
 	 * @param businessID unique business identifier for which to find the associated restaurant.
+	 * @throws Exception 
 	 */
-	public String getRestaurant(String businessID){
-	    JSONObject message=new JSONObject();
-	    
+	public Restaurant getRestaurant(String businessID) throws Exception{
 	    Iterator<Restaurant> restoIterator= this.restaurantDB.iterator();
 	    
 	    
@@ -151,10 +150,10 @@ public class RestaurantDB {
 	        if(currentResto.getBusinessID().equals(businessID) 
 	                && !"Error".equals(currentResto.getName()))
 	                
-	            return currentResto.getJSONDetails().toJSONString();
+	            return new Restaurant(currentResto);
 	    }
-	    message.put("Error", "Invalid Request");
-	    return message.toJSONString();
+	    //TODO make this more descriptive
+	     throw new Exception();
 	}
 	
 	

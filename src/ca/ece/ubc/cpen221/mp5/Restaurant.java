@@ -15,15 +15,15 @@ public class Restaurant {
     final private JSONObject restoJSON;
    
   //array represents location with longitude at first index and latitude at the second
-    final private Double[] location = { 0.0, 0.0 }; 
-    final private Set<String> neighbourhoods = new HashSet<String>();
-    final private String businessID;
+    private Double[] location = { 0.0, 0.0 }; 
+    private Set<String> neighbourhoods = new HashSet<String>();
+    private String businessID;
     
-    final private String name;
-    final private Set<String> categories = new HashSet<String>();
+    private String name;
+    private Set<String> categories = new HashSet<String>();
     
     private double rating;
-    final private long price;
+    private long price;
     
     JSONObject errorMsg = new JSONObject(); //for invalid query
 
@@ -57,6 +57,22 @@ public class Restaurant {
         this.price=(long) this.restoJSON.get("price");
         
         
+    }
+    
+    /**
+     * producer constructor for restaurant
+     * @param resto
+     */
+    public Restaurant(Restaurant resto){
+        this.restoJSON = resto.getJSONDetails();
+        this.location[0] = resto.getLocation()[0];
+        this.location[1] = resto.getLocation()[1];      
+        this.businessID= resto.getBusinessID();       
+        this.name=resto.getName();
+        this.neighbourhoods = resto.getNeighbourhoods();
+        this.categories = resto.getCategories();
+        this.rating= resto.getRating();
+        this.price= resto.getPrice();     
     }
     
     /**

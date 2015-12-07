@@ -103,6 +103,15 @@ public class Review {
     }
     
     /**
+     * Returns the review rating
+     * 
+     * @return the review rating
+     */
+    public long getRating() {
+        return this.rating;
+    }
+    
+    /**
      * Compares this review to another review. Reviews considered the same if they have the same
      * review id 
      * 

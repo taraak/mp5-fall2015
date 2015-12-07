@@ -7,8 +7,8 @@ public class LongitudeFF implements MP5Function {
 
     @Override
     public double f(Restaurant yelpRestaurant, RestaurantDB db) {
-        // TODO Auto-generated method stub
-        return 0;
+        //not sure if this is the right index
+        return yelpRestaurant.getLocation()[0];
     }
 
 }
