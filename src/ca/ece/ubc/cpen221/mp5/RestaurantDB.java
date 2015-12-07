@@ -131,7 +131,7 @@ public class RestaurantDB {
             
         
         int index = (int)Math.random()*matchingReviews.size();
-        return matchingReviews.get(index);
+        return matchingReviews.get(index).toJSONString();
 	}
 	
 	/**

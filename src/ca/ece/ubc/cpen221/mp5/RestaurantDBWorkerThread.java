@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Set;
 
 import org.json.simple.JSONObject;
 
@@ -17,8 +18,10 @@ public class RestaurantDBWorkerThread implements Runnable {
         this.database = database;
     }
 
+    
     @Override
     public void run() {
+        String POISON_PILL="Done";
         try (
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader( new InputStreamReader(socket.getInputStream()));
@@ -26,28 +29,36 @@ public class RestaurantDBWorkerThread implements Runnable {
                 String inputLine;
                 String output;
                 
-                
-                output = processInput(null);
-                out.println(output);
 
                 while ((inputLine = in.readLine()) != null) {
                     
-                    output = processInput(inputLine);
-                    out.println(output);
                     
-                    if (output.equals("poisonPill"))
+                    if (inputLine.equals(POISON_PILL))
                         break;
+                    
+                    else if(isAcceptableQuery(inputLine))
+                        output=processInput(inputLine);
+                    
+                    else
+                        output=processSearchQuery(inputLine);
+                    
+                    out.println(output);
                 }
+                
+                out.close();
+                in.close();
                 socket.close();
             } catch (IOException e) {
+                System.err.println("Error running the server on that port");
                 e.printStackTrace();
             }
-        
+
     }
     
     /**
-     * Parse a query 
-     * @param input
+     * Parse a query that is one of the type:  "randomReview"/ "getRestaurant"/
+     *      "addRestaurant"/"addUser"/"addReview"
+     * @param input query from the client
      * @return answer to that query
      */
     private String processInput(String input){
@@ -107,6 +118,33 @@ public class RestaurantDBWorkerThread implements Runnable {
             }
         }
         return false;
+    }
+    
+    
+    /**
+     * Responds to the type of query that is searching for specific restaurants
+     * of specified details
+     * @param input from the client
+     * @return
+     */
+    private String processSearchQuery(String input) {
+        Restaurant errorRestaurant = new Restaurant();
+        JSONObject message = new JSONObject();
+
+        Set<Restaurant> answer = database.query(input);
+        
+        if (answer.isEmpty()) {
+
+            message.put("Answer:", "No results found for your query");
+            return message.toJSONString();
+        }
+
+        else if (answer.contains(errorRestaurant)) {
+            message.put("Answer:", "Invalid input query");
+            return message.toJSONString();
+        }
+
+        return answer.toString();
     }
 
 
