@@ -2,13 +2,8 @@ package ca.ece.ubc.cpen221.mp5.statlearning;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-<<<<<<< HEAD
-
 import org.json.simple.JSONObject;
-
-=======
 import java.util.ArrayList;
->>>>>>> a5eaa4b1dcf953f085973f4dbd4bb15ae0c65563
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -154,7 +149,7 @@ public class Algorithms {
 	}
 
 	public static MP5Function getPredictor(User u, RestaurantDB db, MP5Function featureFunction) {
-		// TODO: Implement this method
+		Set<Review> userReviews = u.getUserReviews(db);
 		return null;
 	}
 
@@ -162,4 +157,5 @@ public class Algorithms {
 		// TODO: Implement this method
 		return null;
 	}
+	
 }
