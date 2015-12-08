@@ -138,10 +138,9 @@ public class RestaurantDB {
 	 * This method provides the restaurant details in JSON format for the restaurant
 	 * that has the provided business identifier.
 	 * @param businessID unique business identifier for which to find the associated restaurant.
+	 * @throws Exception 
 	 */
-	public String getRestaurant(String businessID){
-	    JSONObject message=new JSONObject();
-	    
+	public Restaurant getRestaurant(String businessID) throws Exception{
 	    Iterator<Restaurant> restoIterator= this.restaurantDB.iterator();
 	    
 	    
@@ -151,10 +150,10 @@ public class RestaurantDB {
 	        if(currentResto.getBusinessID().equals(businessID) 
 	                && !"Error".equals(currentResto.getName()))
 	                
-	            return currentResto.getJSONDetails().toJSONString();
+	            return new Restaurant(currentResto);
 	    }
-	    message.put("Error", "Invalid Request");
-	    return message.toJSONString();
+	    //TODO make this more descriptive
+	     throw new Exception();
 	}
 	
 	
@@ -163,7 +162,7 @@ public class RestaurantDB {
 	 * This method adds a new restaurant to the database with suitable checking.
 	 * @param restoDetails restaurant details in JSON format to add to the database.
 	 */
-	public String addRestaurant(String restoDetails){
+	public synchronized String addRestaurant(String restoDetails){
 	    boolean restoAlreadyThere=false;
 	    JSONObject message=new JSONObject();
 	    
@@ -200,7 +199,7 @@ public class RestaurantDB {
      * This method adds a new user to the database with suitable checking.
      * @param userDetails user details in JSON format to add to the database.
      */
-    public String addUser(String userDetails){
+    public synchronized String addUser(String userDetails){
         boolean userAlreadyThere=false;
         JSONObject message=new JSONObject();
         
@@ -237,7 +236,7 @@ public class RestaurantDB {
      * This method adds a new review to the database with suitable checking.
      * @param reviewDetails review details in JSON format to add to the database.
      */
-    public String addReview(String reviewDetails){
+    public synchronized String addReview(String reviewDetails){
         boolean reviewoAlreadyThere=false;
         JSONObject message=new JSONObject();
         

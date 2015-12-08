@@ -7,7 +7,7 @@ public class CategoryFF implements MP5Function {
 
     @Override
     public double f(Restaurant yelpRestaurant, RestaurantDB db) {
-        // TODO Auto-generated method stub
+        // TODO need to map from category to integer
         return 0;
     }
 

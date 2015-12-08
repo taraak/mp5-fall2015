@@ -51,6 +51,8 @@ public class RestaurantDBWorkerThread implements Runnable {
             } catch (IOException e) {
                 System.err.println("Error running the server on that port");
                 e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
     }
@@ -60,8 +62,9 @@ public class RestaurantDBWorkerThread implements Runnable {
      *      "addRestaurant"/"addUser"/"addReview"
      * @param input query from the client
      * @return answer to that query
+     * @throws Exception 
      */
-    private String processInput(String input){
+    private String processInput(String input) throws Exception{
         JSONObject message = new JSONObject();
 
         String answer = message.toJSONString();
@@ -71,7 +74,7 @@ public class RestaurantDBWorkerThread implements Runnable {
 
             if ("getRestaurant".equals(type)) {
                 String businessID = input.substring(15, input.length() - 2);
-                answer = database.getRestaurant(businessID);
+                answer = database.getRestaurant(businessID).toString();
             }
 
             else if ("addRestaurant".equals(type)) {

@@ -9,5 +9,4 @@ public class RatingFF implements MP5Function {
     public double f(Restaurant yelpRestaurant, RestaurantDB db) {
         return yelpRestaurant.getRating();
     }
-
 }
