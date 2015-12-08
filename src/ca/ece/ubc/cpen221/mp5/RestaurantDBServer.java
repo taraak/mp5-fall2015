@@ -36,7 +36,7 @@ public class RestaurantDBServer implements Runnable {
         System.out.println("Database created");
 
         this.run();
-    }
+	}
 
     public void run(){
         
