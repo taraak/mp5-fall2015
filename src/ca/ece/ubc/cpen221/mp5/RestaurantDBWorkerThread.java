@@ -45,17 +45,12 @@ public class RestaurantDBWorkerThread implements Runnable {
                     out.println(output);
                 }
                 
-                out.close();
-                in.close();
-                socket.close();
-            } catch (IOException ) {
+            } catch (IOException e) {
                 System.err.println("Error running the server on that port");
                 e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        out.flush();
-        
 
     }
     
