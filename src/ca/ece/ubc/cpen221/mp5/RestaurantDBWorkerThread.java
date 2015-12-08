@@ -30,9 +30,10 @@ public class RestaurantDBWorkerThread implements Runnable {
                 String output;
                 
 
-                while ((inputLine = in.readLine()) != null) {
+                while (true) {
+                    inputLine = in.readLine();
                     
-                    
+                    if (inputLine != null){
                     if (inputLine.equals(POISON_PILL))
                         break;
                     
@@ -44,6 +45,10 @@ public class RestaurantDBWorkerThread implements Runnable {
                     
                     out.println(output);
                 }
+                }
+                out.close();
+                in.close();
+                socket.close();
                 
             } catch (IOException e) {
                 System.err.println("Error running the server on that port");
