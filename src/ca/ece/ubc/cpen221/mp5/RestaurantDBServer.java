@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-// TODO: Implement a server that will instantiate a database, 
-// process queries concurrently, etc.
+/**
+ * Multi-threaded server that instantiates a database and processes the queries
+ * concurrently
+ *
+ */
 
 public class RestaurantDBServer implements Runnable {
     
@@ -18,22 +21,22 @@ public class RestaurantDBServer implements Runnable {
     
     private final RestaurantDB database;
 
-	/**
-	 * Constructor for RestaurantDBServer. Listens for connections on port and creates a restaurant database.
-	 * 
-	 * @param port port number, must be greater than or equal to zero, port M = 65535
-	 * @param restaurantJSONfilename name of a file that contains restaurant details in JSON format
-	 * @param reviewsJSONfilename name of a file that contains review details in JSON format
-	 * @param usersJSONfilename name of a file that contains user details in JSON format
-	 */
-	public RestaurantDBServer(int port, String restaurantDetails, String userReviews, String userDetails) {
-	    this.port = port;
-	    
+    /**
+     * Constructor for RestaurantDBServer. Listens for connections on port and creates a restaurant database.
+     * 
+     * @param port port number, must be greater than or equal to zero, port M = 65535
+     * @param restaurantJSONfilename name of a file that contains restaurant details in JSON format
+     * @param reviewsJSONfilename name of a file that contains review details in JSON format
+     * @param usersJSONfilename name of a file that contains user details in JSON format
+     */
+    public RestaurantDBServer(int port, String restaurantDetails, String userReviews, String userDetails) {
+        this.port = port;
+        
         this.database = new RestaurantDB(restaurantDetails, userReviews, userDetails);
         System.out.println("Database created");
 
-        openServerSocket();
-	}
+        this.run();
+    }
 
     public void run(){
         
@@ -95,15 +98,13 @@ public class RestaurantDBServer implements Runnable {
         }
         
     }
+    
+    public void main(String[] args){
+        RestaurantDBServer server = new RestaurantDBServer(Integer.parseInt(args[0]), args[1], args[2], args[3]);
+        
+        server.stopServerSocket();
+        return;
 
-	public void main(String[] args){
-	    RestaurantDBServer server = new RestaurantDBServer(Integer.parseInt(args[0]), args[1], args[2], args[3]);
-	    
-	    server.run();
-	    
-	    server.stopServerSocket();
-	    return;
-
-	}
+    }
 
 }
