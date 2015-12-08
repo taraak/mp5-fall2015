@@ -98,11 +98,21 @@ public class Location {
         double longThat=objLocation.getLongitude();
         double latThat=objLocation.getLatitude();
         
-        if(Math.abs(longThat-longThis)<= 0.00000000000005 
+        if(Math.abs(longThat-longThis)<=  0.00000005
                 && Math.abs(latThis - latThat) <= 0.00000000000005)
             return true;
         
         return false;
+    }
+    
+    /**
+     * Overrides hashcode as a result of overriding equality method for location
+     */
+    @Override
+    public int hashCode() {
+
+        return Double.toString(this.latitude).hashCode() 
+                + Double.toString(this.longitude).hashCode();
     }
     
 }

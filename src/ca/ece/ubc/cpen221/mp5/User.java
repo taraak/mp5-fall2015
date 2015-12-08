@@ -18,7 +18,7 @@ public class User {
     final private String type;
     final private Map<String, Long> votes = new HashMap<String, Long>();
     private int reviewCount;
-    private long avgRating;
+    private double  avgRating;
     
     /**
      * Create a user object.
@@ -32,12 +32,12 @@ public class User {
         this.name = this.userJSON.get("name").toString();
         this.url = this.userJSON.get("url").toString();       
         this.type = this.userJSON.get("type").toString();       
-        this.avgRating = (Long) this.userJSON.get("average_stars");
+        this.avgRating = (double) this.userJSON.get("average_stars");
         
         JSONObject allVotes = (JSONObject) this.userJSON.get("votes");
-        this.votes.put("cool", (Long) allVotes.get("cool"));
-        this.votes.put("useful", (Long) allVotes.get("useful"));
-        this.votes.put("funny", (Long) allVotes.get("funny"));
+        this.votes.put("cool", (long) allVotes.get("cool"));
+        this.votes.put("useful", (long) allVotes.get("useful"));
+        this.votes.put("funny", (long) allVotes.get("funny"));
     }
     
     /**
@@ -118,7 +118,7 @@ public class User {
      * 
      * @return the user's average rating
      */
-    public Long getAverageRating() {
+    public double getAverageRating() {
         return this.avgRating;
     }
     
