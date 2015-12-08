@@ -32,7 +32,7 @@ public class RestaurantDBServer implements Runnable {
         this.database = new RestaurantDB(restaurantDetails, userReviews, userDetails);
         System.out.println("Database created");
 
-        openServerSocket();
+        this.run();
 	}
 
     public void run(){
@@ -95,14 +95,5 @@ public class RestaurantDBServer implements Runnable {
         }
         
     }
-
-	public void main(String[] args){
-	    RestaurantDBServer server = new RestaurantDBServer(Integer.parseInt(args[0]), args[1], args[2], args[3]);
-	    server.run();
-	    
-	    server.stopServerSocket();
-	    return;
-
-	}
 
 }
