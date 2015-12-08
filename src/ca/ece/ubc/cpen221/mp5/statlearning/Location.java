@@ -98,7 +98,7 @@ public class Location {
         double longThat=objLocation.getLongitude();
         double latThat=objLocation.getLatitude();
         
-        if(Math.abs(longThat-longThis)<= 0.00000000000005 
+        if(Math.abs(longThat-longThis)<=  0.00000005
                 && Math.abs(latThis - latThat) <= 0.00000000000005)
             return true;
         
