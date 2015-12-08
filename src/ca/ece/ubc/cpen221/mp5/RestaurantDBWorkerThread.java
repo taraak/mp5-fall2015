@@ -70,7 +70,9 @@ public class RestaurantDBWorkerThread implements Runnable {
         String answer = message.toJSONString();
         String type = input.substring(0, input.indexOf("("));
 
-        if ('\"' == input.charAt(input.indexOf("(") + 1) && '\"' == input.charAt(input.length() - 2)) {
+        if ('\"' == input.charAt(input.indexOf("(") + 1) &&
+                '\"' == input.charAt(input.length() - 2)
+                && (input.indexOf("(")+1) != (input.length() - 2)) {
 
             if ("getRestaurant".equals(type)) {
                 String businessID = input.substring(15, input.length() - 2);
@@ -149,6 +151,4 @@ public class RestaurantDBWorkerThread implements Runnable {
 
         return answer.toString();
     }
-
-
 }

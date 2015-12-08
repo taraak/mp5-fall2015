@@ -98,6 +98,7 @@ public class RestaurantDBServer implements Runnable {
 
 	public void main(String[] args){
 	    RestaurantDBServer server = new RestaurantDBServer(Integer.parseInt(args[0]), args[1], args[2], args[3]);
+	    
 	    server.run();
 	    
 	    server.stopServerSocket();

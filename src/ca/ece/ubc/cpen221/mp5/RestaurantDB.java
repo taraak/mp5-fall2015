@@ -6,32 +6,39 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
-
 import formula.FormulaFactory;
 
+/**
+ * This class is the data type representing Yelp restaurant database
+ * and contains a restaurant database, containing all restaurants and their details,
+ * a user database and a review database
+ * This class is thread safe as it uses CopyOnWriteArrayList, and synchronized blocks and final
+ * fields
+ */
 
-// TODO: This class represents the Restaurant Database.
-// Define the internal representation and 
-// state the rep invariant and the abstraction function.
 
 public class RestaurantDB {
     
-    private Set<Restaurant> restaurantDB = new HashSet<Restaurant>();
-    private Set<Review> reviewDB = new HashSet<Review>();
-    private Set<User> userDB = new HashSet<User>();
+//    private Set<Restaurant> restaurantDB = new HashSet<Restaurant>();
+//    private Set<Review> reviewDB = new HashSet<Review>();
+//    private Set<User> userDB = new HashSet<User>();
+//    
+    private final List<Restaurant> restaurantDB = new CopyOnWriteArrayList<Restaurant>();
+    private final List<Review> reviewDB = new CopyOnWriteArrayList<Review>();
+    private final List<User> userDB = new CopyOnWriteArrayList<User>();
 
 	/**
 	 * Create a database from the Yelp dataset given the names of three files:
@@ -100,7 +107,8 @@ public class RestaurantDB {
 	 *  matches the name then any restaurant that satisfies the match can be selected.
 	 * @param restoName restaurant name for which to find a review.
 	 */
-	public String randomReview(String restoName) {
+	@SuppressWarnings("unchecked")
+    public String randomReview(String restoName) {
 	    
         JSONObject message=new JSONObject();
         
@@ -162,7 +170,8 @@ public class RestaurantDB {
 	 * This method adds a new restaurant to the database with suitable checking.
 	 * @param restoDetails restaurant details in JSON format to add to the database.
 	 */
-	public synchronized String addRestaurant(String restoDetails){
+	@SuppressWarnings("unchecked")
+    public synchronized String addRestaurant(String restoDetails){
 	    boolean restoAlreadyThere=false;
 	    JSONObject message=new JSONObject();
 	    
@@ -177,10 +186,16 @@ public class RestaurantDB {
 	                    break;
 	                }
 	            }
+	            
+	            if(restoAlreadyThere){
+	                message.put("Message:", "This restaurant already exist in the database");
+	                return message.toJSONString();
+	            }
+	                
 
 	            if (!restoAlreadyThere) {
 	                this.restaurantDB.add(newRestaurant);	                
-	                message.put("Added?", true);
+	                message.put("Message:", "Restaurant was successfully added to the databse");
 
 	                return message.toJSONString();
 	            }
@@ -190,8 +205,8 @@ public class RestaurantDB {
                 return message.toJSONString();
 
 	        } catch (ParseException e) {
-	            e.printStackTrace();
-	            throw new IllegalArgumentException();
+	            message.put("Error:", "Your request had syntax error");
+	            return message.toJSONString();
 	        }  
 	}
 
@@ -268,6 +283,11 @@ public class RestaurantDB {
         
     }
     
+    /**
+     * Parsers a query using query parser from FormulaFactory class
+     * @param queryString the query from client 
+     * @return teh parsed query
+     */
 	public Set<Restaurant> query(String queryString) {
 	       FormulaFactory queryParser = new FormulaFactory();
 	        return queryParser.parse(queryString, this);
@@ -306,34 +326,5 @@ public class RestaurantDB {
          return reviews;
      } 
     
-//  /*
-//  * Helper method that reads a single line
-//  */
-// private JSONObject JSONReader(String fileName){
-//        try{
-//             JSONParser parser = new JSONParser();
-//
-//             BufferedReader reader=new BufferedReader(new FileReader (fileName));
-//             String currentLine=reader.readLine();
-//             
-//             if(currentLine==null){
-//                 throw new IllegalArgumentException();
-//             }
-//             
-//             JSONObject object = (JSONObject) parser.parse(currentLine);
-//             return object;
-//             
-//            }catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//                throw new IllegalArgumentException();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                throw new IllegalArgumentException();
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//                throw new IllegalArgumentException();
-//            }
-//     
-// }
 	
 }
