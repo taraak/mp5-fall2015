@@ -105,4 +105,14 @@ public class Location {
         return false;
     }
     
+    /**
+     * Overrides hashcode as a result of overriding equality method for location
+     */
+    @Override
+    public int hashCode() {
+
+        return Double.toString(this.latitude).hashCode() 
+                + Double.toString(this.longitude).hashCode();
+    }
+    
 }
