@@ -138,7 +138,7 @@ public class Algorithms {
 	        for (Restaurant resto : clusters.get(i)){
 	            //this is not giving the same info as the voronoi file has
 	            //but it has more
-	            //and its less work for mee
+	            //and its less work for me
 	            //missing "weight" also wuuut is that
 	            JSONObject jsonResto = resto.getJSONDetails();
 	            jsonResto.put("Cluster", i);

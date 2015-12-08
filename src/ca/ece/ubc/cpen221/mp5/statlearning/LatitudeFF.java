@@ -7,8 +7,8 @@ public class LatitudeFF implements MP5Function {
 
     @Override
     public double f(Restaurant yelpRestaurant, RestaurantDB db) {
-        // TODO Auto-generated method stub
-        return 0;
+        Double[] restoLocation=yelpRestaurant.getLocation();
+        return restoLocation[1];
     }
 
 }
